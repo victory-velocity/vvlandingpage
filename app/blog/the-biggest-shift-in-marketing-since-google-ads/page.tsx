@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { SiteNav } from "@/components/SiteNav";
 
 export const metadata: Metadata = {
-  title: "The Biggest Shift in Marketing Since Google Ads — Victory Velocity",
+  title: "The Biggest Shift in Marketing Since Google Ads | Victory Velocity",
   description:
     "AI is rewriting how customers discover brands. A practical breakdown of generative engine optimization and ChatGPT ads.",
   alternates: {
@@ -54,7 +54,7 @@ export default function BlogPost() {
             <div className="blog-cover">
               <Image
                 src="/blog/article-cover.webp"
-                alt="ChatGPT Ads billboard — Reach your ideal customers with AI-powered ads"
+                alt="ChatGPT Ads billboard: Reach your ideal customers with AI-powered ads"
                 width={1400}
                 height={933}
                 style={{ width: "100%", height: "auto" }}
@@ -130,7 +130,7 @@ export default function BlogPost() {
                 Where did that number go? ChatGPT had 400 million weekly active
                 users in February 2025. By February 2026, it went up to 900
                 million. Users didn&rsquo;t switch to ChatGPT because they were
-                told to. It was natural — because getting an answer is a better
+                told to. It was natural, because getting an answer is a better
                 experience than getting ten links to click through. This all
                 happened without businesses noticing. While most businesses only
                 knew SEO (search engine optimization), a new word was needed to
@@ -140,7 +140,7 @@ export default function BlogPost() {
               <figure className="blog-fig">
                 <Image
                   src="/blog/google-market-share.webp"
-                  alt="StatCounter Global Stats — Search Engine Market Share Worldwide Jan–Dec 2024, showing Google dropping below 90%"
+                  alt="StatCounter Global Stats: Search Engine Market Share Worldwide, January to December 2024, showing Google dropping below 90%"
                   width={1260}
                   height={700}
                   style={{ width: "100%", height: "auto" }}
@@ -236,7 +236,7 @@ export default function BlogPost() {
                 Above shows that there has been an obvious shift in how brands
                 are found on the internet. Clicks are &ldquo;disappearing&rdquo;
                 from traditional pathways like Google and appearing somewhere
-                else — Large Language Models (more commonly known as AI).
+                else: Large Language Models (more commonly known as AI).
               </p>
 
               <p>

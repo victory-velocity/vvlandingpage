@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { SiteNav } from "@/components/SiteNav";
 
 export const metadata: Metadata = {
-  title: "Blog — Victory Velocity",
+  title: "Blog | Victory Velocity",
   description: "Insights on generative engine optimization, ChatGPT Ads, and AI-powered brand discovery.",
   alternates: { canonical: "https://www.victoryvelocity.ca/blog" },
 };

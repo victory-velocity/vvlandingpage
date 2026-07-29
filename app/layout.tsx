@@ -35,12 +35,12 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: "Victory Velocity | Be the answer, everywhere they ask.",
   description:
-    "Victory Velocity helps brands get cited in AI answers and running on ChatGPT Ads. We handle Generative Engine Optimization, ChatGPT Ads setup, and weekly AI visibility tracking.",
+    "A hands-on agency that gets your brand named by ChatGPT, Claude, Gemini and Perplexity. We measure where you stand, fix what blocks AI engines, build your authority, and prove the movement.",
   metadataBase: new URL("https://www.victoryvelocity.ca"),
   openGraph: {
     title: "Victory Velocity | Be the answer, everywhere they ask.",
     description:
-      "Victory Velocity helps brands get cited in AI answers and running on ChatGPT Ads.",
+      "A hands-on agency that gets your brand named by ChatGPT, Claude, Gemini and Perplexity.",
     url: "https://www.victoryvelocity.ca",
     siteName: "Victory Velocity",
     locale: "en_CA",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Victory Velocity | Be the answer, everywhere they ask.",
     description:
-      "Victory Velocity helps brands get cited in AI answers and running on ChatGPT Ads.",
+      "A hands-on agency that gets your brand named by ChatGPT, Claude, Gemini and Perplexity.",
   },
   alternates: {
     canonical: "https://www.victoryvelocity.ca",
@@ -73,72 +73,27 @@ const schema = {
       "@id": "https://www.victoryvelocity.ca/#organization",
       "name": "Victory Velocity",
       "url": "https://www.victoryvelocity.ca",
-      "description": "Victory Velocity helps brands get cited in AI answers and running on ChatGPT Ads. We handle Generative Engine Optimization, ChatGPT Ads setup, and weekly AI visibility tracking.",
+      "description": "A hands-on agency that gets your brand named by ChatGPT, Claude, Gemini and Perplexity. We measure where you stand, fix what blocks AI engines, build your authority, and prove the movement.",
       "email": "128kaden@gmail.com",
       "areaServed": "Worldwide",
       "foundingDate": "2026",
     },
     {
       "@type": "Service",
-      "name": "Generative Engine Optimization",
-      "description": "We build the technical foundation and content architecture that makes AI engines reach for your brand when customers ask relevant questions. Schema markup, topic clusters, AI visibility tracking.",
+      "name": "AI Visibility Measurement",
+      "description": "We build the real set of buying intents for your business, test each across multiple phrasings, and measure them against ChatGPT, Claude, Gemini and Perplexity. We record whether your brand is mentioned, whether it is cited with a link, and how strongly it is positioned, alongside the same measurement for your named competitors.",
       "provider": { "@id": "https://www.victoryvelocity.ca/#organization" },
       "areaServed": "Worldwide",
-      "url": "https://www.victoryvelocity.ca/#services",
+      "url": "https://www.victoryvelocity.ca/#method"
     },
     {
       "@type": "Service",
-      "name": "ChatGPT Ads Management",
-      "description": "We set up and manage campaigns on OpenAI's native ad platform. Conversation-context targeting reaches users mid-thought, before a shortlist forms, inside the fastest-growing discovery channel on the internet.",
+      "name": "AI Technical Site Audit",
+      "description": "A deterministic audit covering AI crawler access, sitemaps, schema markup, metadata, canonicals, HTTPS, links, images and page speed, run page by page across the whole site. Findings become reviewable action cards with platform-specific instructions, applied only on approval and verified by re-audit.",
       "provider": { "@id": "https://www.victoryvelocity.ca/#organization" },
       "areaServed": "Worldwide",
-      "url": "https://www.victoryvelocity.ca/#services",
-    },
-    {
-      "@type": "Service",
-      "name": "Weekly AI Visibility Tracking",
-      "description": "We run prompt checks across ChatGPT, Perplexity, and Google AI Overviews every week and report on where your brand appears, what context it appears in, and what's moved.",
-      "provider": { "@id": "https://www.victoryvelocity.ca/#organization" },
-      "areaServed": "Worldwide",
-      "url": "https://www.victoryvelocity.ca/#services",
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is generative engine optimization?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Generative Engine Optimization (GEO) builds the technical foundation and content architecture that makes AI engines cite your brand when customers ask relevant questions. Where traditional SEO targets search rankings, GEO ensures your brand appears in AI-generated answers across ChatGPT, Perplexity, Google AI Overviews, and more — because when someone asks AI for the best option, they get one answer, not ten blue links.",
-          },
-        },
-        {
-          "@type": "Question",
-          "name": "How does ChatGPT Ads targeting work?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "ChatGPT Ads use conversation-context targeting to reach users mid-thought, before a shortlist forms. Ads are matched to the topic and intent of what the user is actively asking, placing your brand inside ChatGPT's native interface at the exact moment a buyer is seeking a recommendation — the fastest-growing discovery channel on the internet.",
-          },
-        },
-        {
-          "@type": "Question",
-          "name": "What AI engines do you optimize for?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We optimize for every major generative engine — ChatGPT, Perplexity, Google AI Overviews, Claude, Gemini, Copilot, Grok, Meta AI, DeepSeek, and more as new models emerge. Our content and authority signals are built for how all leading generative models decide who to cite, not just the ones that exist today.",
-          },
-        },
-        {
-          "@type": "Question",
-          "name": "How do you track AI visibility week to week?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We run systematic prompt checks across ChatGPT, Perplexity, Google AI Overviews, and other major generative engines every week. Each report shows where your brand appears, the context it appears in, and what has changed since the prior week — giving you a clear read on your AI citation standing and a recommended next action.",
-          },
-        },
-      ],
-    },
+      "url": "https://www.victoryvelocity.ca/#method"
+    }
   ],
 };
 

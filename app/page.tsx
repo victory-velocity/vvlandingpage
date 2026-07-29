@@ -6,6 +6,7 @@ import { Hero } from "@/components/sections/Hero";
 import { Shift } from "@/components/sections/Shift";
 import { AgencyAnchor } from "@/components/sections/AgencyAnchor";
 import { StickyMethod } from "@/components/method/StickyMethod";
+import { FaqTeaser } from "@/components/sections/FaqTeaser";
 import { Contact } from "@/components/sections/Contact";
 
 export default function Home() {
@@ -34,44 +35,7 @@ export default function Home() {
 
       <StickyMethod />
 
-      {/* FAQ teaser replaces this inline block in Task 9 */}
-      <section className="faq sec-pad">
-        <div className="wrap">
-          <h2 className="faq-heading rv">Questions.</h2>
-          <div className="faq-list">
-            {[
-              {
-                q: "How is this different from SEO?",
-                a: "SEO competes for a position in a list of links. We compete to be inside a single generated answer.",
-              },
-              {
-                q: "Which AI engines do you measure?",
-                a: "ChatGPT, Claude, Gemini and Perplexity. Every intent runs through all four.",
-              },
-              {
-                q: "Do you make changes to my site yourself?",
-                a: "Not automatically. You approve each fix, we apply it, then we re-run the audit to verify it landed.",
-              },
-              {
-                q: "How do you prove anything improved?",
-                a: "Re-measurement against the same intents and engines, so movement is measured rather than asserted.",
-              },
-              {
-                q: "How do I reach you?",
-                a: "A shared channel you can use any time, and a call whenever something needs walking through.",
-              },
-            ].map(({ q, a }, i) => (
-              <details key={i} className="faq-item rv">
-                <summary>
-                  <span className="faq-q">{q}</span>
-                  <span className="faq-icon" aria-hidden="true">+</span>
-                </summary>
-                <p className="faq-body">{a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <FaqTeaser />
 
       <Contact />
 
