@@ -13,9 +13,9 @@
   --p-mute: rgba(23,21,15,0.60);
   --p-faint: rgba(23,21,15,0.40);
   --p-hair: rgba(23,21,15,0.14);
-  --serif: 'Newsreader', Georgia, serif;
-  --sans: 'Schibsted Grotesk', system-ui, sans-serif;
-  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  --serif: var(--font-serif), Georgia, serif;
+  --sans: var(--font-sans), system-ui, sans-serif;
+  --mono: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
 }
 
 @keyframes vvPulse {
@@ -678,7 +678,7 @@ footer .wrap { max-width: 720px; }
 }
 
 .about-name {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-cormorant), Georgia, serif;
   font-weight: 400;
   font-size: clamp(52px, 6.4vw, 90px);
   line-height: 0.95;
