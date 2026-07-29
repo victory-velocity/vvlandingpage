@@ -1,20 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 const ENGINES = ["ChatGPT", "Claude", "Perplexity", "Gemini", "Copilot", "Grok", "Meta AI", "DeepSeek"];
 const SEQ = [...ENGINES, ...ENGINES];
-const HIGHLIGHT_MS = 1800;
 
 export function Hero() {
-  const [hot, setHot] = useState(0);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = setInterval(() => setHot((prev) => (prev + 1) % ENGINES.length), HIGHLIGHT_MS);
-    return () => clearInterval(id);
-  }, []);
-
   return (
     <header className="hero">
       <div className="wrap">
@@ -28,7 +17,7 @@ export function Hero() {
         <div className="marquee">
           <div className="track">
             {SEQ.map((e, i) => (
-              <span key={i} className={`eng${i % ENGINES.length === hot ? " hot" : ""}`}>
+              <span key={i} className="eng pulse" style={{ ["--i" as string]: i % ENGINES.length }}>
                 {e}<span className="star">✦</span>
               </span>
             ))}

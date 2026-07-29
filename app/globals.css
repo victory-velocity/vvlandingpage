@@ -123,11 +123,22 @@ section { position: relative; }
 .track .eng {
   font-family: var(--serif); font-size: clamp(30px, 4vw, 50px); color: var(--faint);
   display: inline-flex; align-items: center; gap: 64px;
-  transition: color .55s ease;
+}
+/* Pulse is synced to the 30s track translation, so each engine lights as it
+   crosses roughly the same screen position rather than drifting out of view. */
+.track .eng.pulse {
+  animation: vvEngPulse 30s linear infinite;
+  animation-delay: calc(var(--i) * -3.75s);
+}
+@keyframes vvEngPulse {
+  0%   { color: var(--faint); }
+  4%   { color: var(--white); }
+  9%   { color: var(--white); }
+  13%  { color: var(--faint); }
+  100% { color: var(--faint); }
 }
 .track.rev .eng { font-style: italic; }
 .track .eng .star { font-family: var(--sans); font-size: 14px; color: var(--ghost); }
-.track .eng.hot { color: var(--white); }
 @keyframes vvMarquee    { from { transform: translateX(0); }    to { transform: translateX(-50%); } }
 @keyframes vvMarqueeRev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 
@@ -170,6 +181,88 @@ section { position: relative; }
   gap: clamp(32px, 5vw, 72px); max-width: 900px;
 }
 .anchor-body p { font-size: 19px; line-height: 1.65; color: var(--mute); margin: 0; }
+
+/* mockup base */
+.mk { width: 100%; max-width: 600px; font-family: var(--serif); }
+
+/* mk-chat - GEO live answer card */
+.mk-chat {
+  background: rgba(20,20,22,0.94); border: 1px solid var(--hair);
+  border-radius: 14px; box-shadow: 0 40px 90px -40px rgba(0,0,0,0.8); overflow: hidden;
+}
+.mk-chat .bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 15px 20px; border-bottom: 1px solid var(--hair);
+}
+.mk-chat .bar .tag {
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.18em; color: var(--mute);
+}
+.mk-chat .bar .dots { display: flex; gap: 7px; }
+.mk-chat .bar .dots i { width: 7px; height: 7px; border-radius: 9px; background: var(--ghost); }
+.mk-chat .body { padding: 26px 24px 28px; }
+.mk-chat .qrow { display: flex; justify-content: flex-end; margin-bottom: 22px; }
+.mk-chat .q {
+  background: rgba(245,244,241,0.07); border: 1px solid var(--hair);
+  border-radius: 18px; padding: 9px 16px; font-size: 16px; color: var(--white);
+}
+.mk-chat .a { font-size: 16.5px; line-height: 1.62; color: rgba(245,244,241,0.82); margin: 0 0 20px; }
+.mk-chat .cite {
+  display: flex; align-items: center; gap: 14px; padding: 14px 16px;
+  border-radius: 10px; border: 1px solid rgba(245,244,241,0.4);
+  background: rgba(245,244,241,0.06);
+}
+.mk-chat .cite .num {
+  width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--ghost);
+  display: grid; place-items: center; font-family: var(--mono);
+  font-size: 11px; color: var(--mute); flex: none;
+}
+.mk-chat .cite .cmain { flex: 1; }
+.mk-chat .cite .cname { font-size: 15.5px; color: var(--white); }
+.mk-chat .cite .curl {
+  font-family: var(--mono); font-size: 11px; color: var(--faint); letter-spacing: 0.04em;
+}
+.mk-chat .cite .cbadge {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+  padding: 5px 11px; border-radius: 5px; color: var(--ink); background: var(--white);
+}
+
+/* mk-report - weekly tracking panel */
+.mk-report {
+  background: var(--ink-2); border: 1px solid var(--hair); border-radius: 12px;
+  overflow: hidden; box-shadow: 0 40px 90px -40px rgba(0,0,0,0.8);
+}
+.mk-report .rbar {
+  padding: 18px 24px; border-bottom: 1px solid var(--hair);
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; color: var(--faint);
+}
+.mk-report .rbar .client { color: var(--mute); }
+.mk-report .rhead { padding: 26px 24px 0; }
+.mk-report .score { display: flex; align-items: baseline; gap: 12px; }
+.mk-report .score .big { font-size: 56px; color: var(--white); line-height: 1; }
+.mk-report .score .den { font-size: 26px; color: var(--faint); }
+.mk-report .score .lbl {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.2em;
+  color: var(--mute); margin-left: 6px;
+}
+.mk-report .pbar { height: 3px; background: var(--hair); position: relative; margin: 18px 0 0; }
+.mk-report .pbar i { position: absolute; left: 0; top: 0; bottom: 0; width: 60%; background: var(--white); }
+.mk-report .rows { padding: 8px 24px 24px; }
+.mk-report .row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 13px 0; border-top: 1px solid var(--hair);
+}
+.mk-report .row .q { font-style: italic; font-size: 16px; color: var(--white); flex: 1; }
+.mk-report .row .eng {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+  color: var(--faint); width: 96px; text-align: right;
+}
+.mk-report .row .b {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em;
+  padding: 4px 9px; border-radius: 4px; width: 62px; text-align: center; flex: none;
+}
+.mk-report .row .b.cited { color: var(--ink); background: var(--white); }
+.mk-report .row .b.no   { color: var(--faint); border: 1px solid var(--hair); }
 
 /* ---- faq ---- */
 .faq { background: #181818; }
@@ -293,7 +386,7 @@ footer .wrap { max-width: 720px; }
 .rv.d3  { transition-delay: .24s; }
 @media (prefers-reduced-motion: reduce) {
   .rv { opacity: 1; transform: none; transition: none; }
-  .track, .swipe::after { animation: none; }
+  .track, .swipe::after, .track .eng.pulse { animation: none; }
 }
 
 /* ---- blog ---- */

@@ -5,7 +5,7 @@ import { SiteNav } from "@/components/SiteNav";
 import { Hero } from "@/components/sections/Hero";
 import { Shift } from "@/components/sections/Shift";
 import { AgencyAnchor } from "@/components/sections/AgencyAnchor";
-import { StickyMethod } from "@/components/method/StickyMethod";
+import { MethodRows } from "@/components/method/MethodRows";
 import { FaqTeaser } from "@/components/sections/FaqTeaser";
 import { Contact } from "@/components/sections/Contact";
 
@@ -33,7 +33,7 @@ export default function Home() {
       <Shift />
       <AgencyAnchor />
 
-      <StickyMethod />
+      <MethodRows />
 
       <FaqTeaser />
 
