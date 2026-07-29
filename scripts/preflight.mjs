@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readFileSync, readdirSync, lstatSync } from "node:fs";
 import { join, extname } from "node:path";
 
 const ROOTS = ["app", "components", "public/llms.txt"];
@@ -24,7 +24,7 @@ const RULES = [
 ];
 
 function walk(path, out = []) {
-  const stats = statSync(path);
+  const stats = lstatSync(path);
   if (stats.isFile()) {
     if (EXTS.has(extname(path))) out.push(path);
     return out;
@@ -36,20 +36,35 @@ function walk(path, out = []) {
   return out;
 }
 
-const files = ROOTS.flatMap((root) => walk(root));
+// Exit code 2 means "could not run" (missing/unreadable path). Exit code 1 means
+// "ran fine, found violations". Keep these distinguishable for callers/CI.
+let files;
+try {
+  files = ROOTS.flatMap((root) => walk(root));
+} catch (error) {
+  console.error(`preflight: could not scan the project: ${error.message}`);
+  console.error("Check that these paths exist and are readable: " + ROOTS.join(", "));
+  process.exit(2);
+}
+
 let failures = 0;
 
-for (const file of files) {
-  const lines = readFileSync(file, "utf8").split("\n");
-  lines.forEach((line, index) => {
-    for (const rule of RULES) {
-      if (rule.test(line)) {
-        failures += 1;
-        console.error(`${file}:${index + 1}  [${rule.id}] ${rule.label}`);
-        console.error(`    ${line.trim().slice(0, 100)}`);
+try {
+  for (const file of files) {
+    const lines = readFileSync(file, "utf8").split("\n");
+    lines.forEach((line, index) => {
+      for (const rule of RULES) {
+        if (rule.test(line)) {
+          failures += 1;
+          console.error(`${file}:${index + 1}  [${rule.id}] ${rule.label}`);
+          console.error(`    ${line.trim().slice(0, 100)}`);
+        }
       }
-    }
-  });
+    });
+  }
+} catch (error) {
+  console.error(`preflight: could not read a file during scan: ${error.message}`);
+  process.exit(2);
 }
 
 if (failures > 0) {
