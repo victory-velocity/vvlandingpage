@@ -5,6 +5,7 @@ import { SiteNav } from "@/components/SiteNav";
 import { Hero } from "@/components/sections/Hero";
 import { Shift } from "@/components/sections/Shift";
 import { AgencyAnchor } from "@/components/sections/AgencyAnchor";
+import { StickyMethod } from "@/components/method/StickyMethod";
 import { Contact } from "@/components/sections/Contact";
 
 export default function Home() {
@@ -31,7 +32,7 @@ export default function Home() {
       <Shift />
       <AgencyAnchor />
 
-      {/* Method section lands here in Task 8 */}
+      <StickyMethod />
 
       {/* FAQ teaser replaces this inline block in Task 9 */}
       <section className="faq sec-pad">

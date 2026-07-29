@@ -1,5 +1,6 @@
 /* Victory Velocity — landing page styles */
 @import "./styles/nav.css";
+@import "./styles/method.css";
 
 :root {
   --ink: #0e0e0f;
