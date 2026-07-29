@@ -1,7 +1,13 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useScroll, useMotionValueEvent } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useMotionValueEvent,
+  useReducedMotion,
+} from "framer-motion";
 import { STEPS } from "./steps";
 import { ScreenPanel } from "./ScreenPanel";
 import { AuthorityPanel } from "./AuthorityPanel";
@@ -16,6 +22,7 @@ function panelFor(index: number) {
 export function StickyMethod() {
   const sectionRef = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
+  const reduce = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -49,7 +56,19 @@ export function StickyMethod() {
         </div>
 
         <div className="method-visual" aria-hidden="true">
-          <div className="method-visual-inner">{panelFor(active)}</div>
+          {/* Communicates state change: the panel tracks the step being read. */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={STEPS[active].id}
+              className="method-visual-inner"
+              initial={reduce ? false : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduce ? undefined : { opacity: 0, y: -12 }}
+              transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {panelFor(active)}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </section>
