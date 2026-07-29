@@ -27,7 +27,10 @@ Verified by reading `../vvAgentSystem` directly (not just `PROJECT_STATE.md`). T
 
 **Technical audit** (`agents/src/technical_audit/`)
 
-- 26 registered deterministic checks: `robots_txt.access`, `robots_txt.integrity`, `sitemap.discovery`, `sitemap.integrity`, `sitemap.coverage`, `sitemap.entry_health`, `schema.coverage`, `schema.integrity`, `meta_title.integrity`, `meta_description.integrity`, `canonical.integrity`, `tls.certificate`, `tls.https_redirect`, `tls.mixed_content`, `links.internal_health`, `links.external_health`, `images.alt_text`, `images.integrity`, `performance.lighthouse`, `performance.crux`, `performance.lcp_image`, `freshness.dates`, `llms_txt.integrity`, `source_support.link_health`, `integration.gsc_sitemap`, `integration.bing`.
+- 26 registered check **definitions**, which expand to far more actual checks per site because most run per page or per subject. Verified against the live dashboard on 2026-07-29: one real client site reported `V1 · 222 CHECKS`, breaking down as 5 fail, 7 review, 13 unknown, 165 pass, 32 not applicable. **Copy must not say "26 checks"**; that undersells by roughly nine times. Say 26 check types, or cite the real per-site number.
+- The audit view also reports movement since the prior audit, e.g. `SINCE JUL 24 · 3 resolved · 6 changed`.
+- Findings expand to show `EXPECTED`, `WHY THIS APPLIES`, `NEXT ACTION` (with an owner) and `SCOPE` (with a confidence rating).
+- The 26 definitions: `robots_txt.access`, `robots_txt.integrity`, `sitemap.discovery`, `sitemap.integrity`, `sitemap.coverage`, `sitemap.entry_health`, `schema.coverage`, `schema.integrity`, `meta_title.integrity`, `meta_description.integrity`, `canonical.integrity`, `tls.certificate`, `tls.https_redirect`, `tls.mixed_content`, `links.internal_health`, `links.external_health`, `images.alt_text`, `images.integrity`, `performance.lighthouse`, `performance.crux`, `performance.lcp_image`, `freshness.dates`, `llms_txt.integrity`, `source_support.link_health`, `integration.gsc_sitemap`, `integration.bing`.
 - `robots_txt.access` verifies seven named AI crawlers: GPTBot, OAI-SearchBot, ChatGPT-User, PerplexityBot, ClaudeBot, Google-Extended, CCBot.
 - Findings group into action cards carrying a risk rating (`low`/`medium`/`high`) and **platform-specific step-by-step instructions** (`remediation.py` has real Squarespace paths, e.g. "Page Settings → SEO").
 - Lifecycle is human-gated: review → approve/reject → apply manually → mark applied → re-run audit to verify. Cards never self-apply. Statuses include `resolved` and `regressed`.
@@ -120,7 +123,7 @@ Steps are labelled by verb, not number. No `01`-`04` prefixes anywhere.
 We don't check a handful of generic prompts. We build the real set of buying intents for your business, test each one across multiple phrasings, and run them through ChatGPT, Claude, Gemini and Perplexity. Every answer is recorded three ways: whether you were named, whether you were actually cited with a link, and how strongly you were positioned, from a passing mention up to the primary recommendation. Your named competitors run through the identical set, so you finish with a per-engine map of every intent where they get named and you don't.
 
 **Fix.** *Clear what stops AI reading your site.*
-Twenty-six deterministic checks against your site, starting with whether the seven major AI crawlers are even allowed in: GPTBot, OAI-SearchBot, ChatGPT-User, PerplexityBot, ClaudeBot, Google-Extended and CCBot. Then sitemaps, schema markup, meta titles and descriptions, canonicals, HTTPS and mixed content, broken links, image alt text, and page speed. Findings group into action cards with a risk rating and exact step-by-step instructions for your platform. Nothing applies itself. You approve it, we apply it, then we re-run the audit to prove it's fixed.
+We run a deterministic audit across your whole site, page by page. It starts with whether the seven major AI crawlers are even allowed in: GPTBot, OAI-SearchBot, ChatGPT-User, PerplexityBot, ClaudeBot, Google-Extended and CCBot. Then sitemaps, schema markup, meta titles and descriptions, canonicals, HTTPS and mixed content, broken links, image alt text, and page speed. On a recent client site that came to 222 individual checks. Findings group into action cards with a risk rating and exact step-by-step instructions for your platform. Nothing applies itself. You approve it, we apply it, then we re-run the audit to prove it's fixed.
 
 **Build authority.** *Get named where the models look.*
 This part is us, not software. We take the specific intents where your competitors get named and you don't, then build your presence in the places those answers are drawn from: the directories, publications, comparison pages and communities the models pull from for your category. Every placement is chosen against a gap we measured, not a generic list.
@@ -165,17 +168,22 @@ Deleted: `AdsManagerVisual` and its `mk-form` CSS block.
 
 Div-built product mockups are banned (§4.8, §9.E). Three of the four steps show a real screenshot of the real dashboard instead. This is both compliant and more persuasive: the machinery visibly exists.
 
-**Required from the user before these panels can be built:**
+**Captured 2026-07-29** from the live dashboard, driven through the user's own browser session. Identifying text was relabelled in-DOM before capture: client "Christian" / `budgetyourmd.ca` became "Cadence Financial" / `cadencefinancial.ca`, and competitors YNAB, AAMC and MD Financial Management became Ledgerly, MedCouncil and Bluepoint Advisors. Real UI, real layout, real metric values, zero PII. A regex assertion for leftover identifiers returned false on every page before each capture.
 
-| Step | Screenshot needed | Source |
+| Step | Panel | Status |
 | --- | --- | --- |
-| Measure | Queries tab showing per-intent mention and citation rates with the competitor comparison visible | vvAgentSystem dashboard, client detail → Queries |
-| Fix | Audit tab showing grouped action cards with risk ratings, ideally one approved and one pending | client detail → Audit |
-| Re-run | Runs or Overview showing two cycles and the movement between them | client detail → Runs |
+| Measure | Queries tab: four headline rates, then per-intent MR/CR cells with stability and top-competitor columns | `public/dashboard/measure.jpg`, 1456x829 |
+| Fix | Audit tab: 222-check summary, status chips, movement strip, grouped findings with FAIL/PASS/UNKNOWN badges | `public/dashboard/fix.jpg`, 1456x829 |
+| Build authority | No product surface. Typographic panel. | Deliberate, see below |
+| Re-run | No two-cycle data exists yet. Typographic panel for now. | See below |
 
-Client names and domains should be blurred or swapped for a demo client before sending. Export at 2x for retina, PNG or WebP, roughly 16:10. These land in `public/dashboard/`.
+Stored as JPEG rather than WebP because the capture source is JPEG and this machine's `sips` has no WebP encoder. `next/image` negotiates WebP and AVIF at serve time regardless, so the stored format only needs to be a good source.
 
-The **Build authority** step deliberately has no product screenshot, because it is human work with no dashboard surface. Rendering a fake one would misrepresent the service and re-introduce the banned pattern. It becomes a full-width typographic section instead, which also breaks the zigzag run that §4.7 caps at two consecutive image-plus-text splits.
+The **Build authority** step deliberately has no product screenshot, because it is human work with no dashboard surface. Rendering a fake one would misrepresent the service and re-introduce the banned pattern.
+
+The **Re-run** step has no screenshot for a different reason: as of 2026-07-29 no client has completed two measurement cycles. The board reads "needs 2+ data points" and "no movement yet" for all four clients, and the Runs tab shows a single run. There is no movement to show, so we do not show any. Swap in a real capture once a client has two or more cycles. Until then it is typographic.
+
+Two typographic panels out of four also breaks the consecutive image-plus-text run that §4.7 caps at two.
 
 ## Motion
 

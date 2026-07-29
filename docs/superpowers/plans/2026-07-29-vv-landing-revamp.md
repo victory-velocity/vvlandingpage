@@ -853,7 +853,10 @@ export type Step = {
   label: string;
   headline: string;
   body: string;
+  /** A real dashboard capture. Steps without one render `panel` instead. */
   shot?: { src: string; alt: string; width: number; height: number };
+  /** Typographic panel, for steps with no product surface to capture. */
+  panel?: { quote: string; note: string };
 };
 
 export const STEPS: Step[] = [
@@ -863,22 +866,22 @@ export const STEPS: Step[] = [
     headline: "See exactly where AI leaves you out.",
     body: "We don't check a handful of generic prompts. We build the real set of buying intents for your business, test each one across multiple phrasings, and run them through ChatGPT, Claude, Gemini and Perplexity. Every answer is recorded three ways: whether you were named, whether you were actually cited with a link, and how strongly you were positioned, from a passing mention up to the primary recommendation. Your named competitors run through the identical set, so you finish with a per-engine map of every intent where they get named and you don't.",
     shot: {
-      src: "/dashboard/measure.webp",
-      alt: "Victory Velocity dashboard showing per-intent mention and citation rates across four AI engines with competitor comparison",
-      width: 1600,
-      height: 1000,
+      src: "/dashboard/measure.jpg",
+      alt: "Victory Velocity dashboard showing per-intent mention and citation rates with stability and top competitor columns",
+      width: 1456,
+      height: 829,
     },
   },
   {
     id: "fix",
     label: "Fix",
     headline: "Clear what stops AI reading your site.",
-    body: "Twenty-six deterministic checks against your site, starting with whether the seven major AI crawlers are even allowed in: GPTBot, OAI-SearchBot, ChatGPT-User, PerplexityBot, ClaudeBot, Google-Extended and CCBot. Then sitemaps, schema markup, meta titles and descriptions, canonicals, HTTPS and mixed content, broken links, image alt text, and page speed. Findings group into action cards with a risk rating and exact step-by-step instructions for your platform. Nothing applies itself. You approve it, we apply it, then we re-run the audit to prove it's fixed.",
+    body: "We run a deterministic audit across your whole site, page by page. It starts with whether the seven major AI crawlers are even allowed in: GPTBot, OAI-SearchBot, ChatGPT-User, PerplexityBot, ClaudeBot, Google-Extended and CCBot. Then sitemaps, schema markup, meta titles and descriptions, canonicals, HTTPS and mixed content, broken links, image alt text, and page speed. On a recent client site that came to 222 individual checks. Findings group into action cards with a risk rating and exact step-by-step instructions for your platform. Nothing applies itself. You approve it, we apply it, then we re-run the audit to prove it's fixed.",
     shot: {
-      src: "/dashboard/fix.webp",
-      alt: "Technical audit tab showing grouped action cards with risk ratings and approval status",
-      width: 1600,
-      height: 1000,
+      src: "/dashboard/fix.jpg",
+      alt: "Technical audit showing a 222-check summary, status counts, and grouped findings with pass and fail badges",
+      width: 1456,
+      height: 829,
     },
   },
   {
@@ -886,17 +889,22 @@ export const STEPS: Step[] = [
     label: "Build authority",
     headline: "Get named where the models look.",
     body: "This part is us, not software. We take the specific intents where your competitors get named and you don't, then build your presence in the places those answers are drawn from: the directories, publications, comparison pages and communities the models pull from for your category. Every placement is chosen against a gap we measured, not a generic list.",
+    panel: {
+      quote: "The only step a machine doesn't do.",
+      note: "Chosen against a measured gap, not a generic list.",
+    },
   },
   {
     id: "rerun",
     label: "Re-run",
     headline: "Prove it moved, then go again.",
     body: "We re-run the full measurement and the audit on a cycle. You see visibility movement per intent and per category, where you now sit against each competitor, which fixes were applied and verified, and which regressed. Then we pick the next set of gaps with you.",
-    shot: {
-      src: "/dashboard/rerun.webp",
-      alt: "Run history comparing two measurement cycles and the visibility movement between them",
-      width: 1600,
-      height: 1000,
+    // No shot: as of 2026-07-29 no client has two completed cycles, so there is no
+    // real movement to screenshot. Renders the typographic panel. Add a shot here
+    // once a client has 2+ runs. See the spec's "Panel content" section.
+    panel: {
+      quote: "Measured, not asserted.",
+      note: "The same intents, the same engines, run again.",
     },
   },
 ];
@@ -930,19 +938,19 @@ export function ScreenPanel({ shot }: { shot: NonNullable<Step["shot"]> }) {
 Create `components/method/AuthorityPanel.tsx`:
 
 ```tsx
-export function AuthorityPanel() {
+import type { Step } from "./steps";
+
+export function AuthorityPanel({ panel }: { panel: NonNullable<Step["panel"]> }) {
   return (
     <div className="authority-panel">
-      <p className="authority-quote">
-        The only step a machine doesn&apos;t do.
-      </p>
-      <p className="authority-note">
-        Chosen against a measured gap, not a generic list.
-      </p>
+      <p className="authority-quote">{panel.quote}</p>
+      <p className="authority-note">{panel.note}</p>
     </div>
   );
 }
 ```
+
+It is named for the Build authority step but is used by any step lacking a capture, currently Build authority and Re-run.
 
 - [ ] **Step 4: Build the sticky shell**
 
@@ -959,7 +967,9 @@ import { AuthorityPanel } from "./AuthorityPanel";
 
 function panelFor(index: number) {
   const step = STEPS[index];
-  return step.shot ? <ScreenPanel shot={step.shot} /> : <AuthorityPanel />;
+  if (step.shot) return <ScreenPanel shot={step.shot} />;
+  if (step.panel) return <AuthorityPanel panel={step.panel} />;
+  return null;
 }
 
 export function StickyMethod() {
@@ -1097,23 +1107,19 @@ Create `app/styles/method.css`:
 
 Add `@import "./styles/method.css";` beneath the nav import at the top of `app/globals.css`. In `app/page.tsx`, render `<StickyMethod />` after `<AgencyAnchor />`.
 
-- [ ] **Step 7: Add placeholder images**
+- [ ] **Step 7: Confirm the real captures are present**
 
-The real screenshots are not available yet (see Task 12). To keep the build green and the layout correct, create three placeholder files at exactly 1600x1000 so `next/image` reserves the right space and CLS stays at zero:
+Run: `ls -la public/dashboard/`
 
-```bash
-mkdir -p public/dashboard
-```
+Expected: `measure.jpg` and `fix.jpg`, both 1456x829. These are already committed; they are real dashboard captures with identifying text relabelled. Do not regenerate or replace them.
 
-Generate three solid dark placeholders sized 1600x1000 named `measure.webp`, `fix.webp`, and `rerun.webp`. If ImageMagick is available:
+Verify the dimensions match `steps.ts`:
 
 ```bash
-for name in measure fix rerun; do
-  magick -size 1600x1000 xc:'#19191c' "public/dashboard/$name.webp"
-done
+sips -g pixelWidth -g pixelHeight public/dashboard/measure.jpg public/dashboard/fix.jpg
 ```
 
-If it is not available, use any 1600x1000 image; Task 12 replaces them.
+Expected: `pixelWidth: 1456`, `pixelHeight: 829` for both. If they differ, correct `steps.ts` rather than the images, or CLS regresses.
 
 - [ ] **Step 8: Verify**
 
@@ -1464,42 +1470,32 @@ git commit -m "feat: align metadata, schema and llms.txt with new narrative"
 
 ---
 
-## Task 12: Swap in real dashboard screenshots
+## Task 12: Verify screenshot rendering
 
-**Blocked on the user.** Everything above ships without this; the placeholders hold correct layout in the meantime.
+The captures already exist and are committed. This task only checks how they render.
 
-**Files:**
-- Replace: `public/dashboard/measure.webp`, `fix.webp`, `rerun.webp`
-- Possibly modify: `components/method/steps.ts` (dimensions only)
+**Files:** none modified unless a problem is found.
 
-- [ ] **Step 1: Collect the screenshots**
+- [ ] **Step 1: Check legibility at both sizes**
 
-Three exports from the vvAgentSystem dashboard, client names and domains blurred or swapped for a demo client:
+Run: `npm run dev`
 
-1. `measure.webp` from client detail, Queries tab: per-intent mention and citation rates with competitor comparison visible.
-2. `fix.webp` from client detail, Audit tab: grouped action cards showing risk ratings, ideally one approved and one pending.
-3. `rerun.webp` from client detail, Runs or Overview: two cycles and the movement between them.
+At 1440px: the Queries capture should be readable inside the framed panel. Intent names, MR/CR cells, and competitor names should all be legible.
 
-Export at 2x for retina, roughly 16:10, WebP preferred.
+At 375px: the same capture renders full-width in the stacked layout. If the small mono text is unreadable, do NOT scale it down further. Instead crop the image tighter around the intent table and update the dimensions in `steps.ts`. A cropped legible screenshot beats a complete illegible one.
 
-- [ ] **Step 2: Drop them in and correct the dimensions**
+- [ ] **Step 2: Confirm no layout shift**
 
-Place the files in `public/dashboard/`. If the real dimensions differ from 1600x1000, update the matching `width` and `height` in `components/method/steps.ts`. These must be the true pixel dimensions or `next/image` will reserve the wrong space and CLS will regress.
+Run Lighthouse on the homepage. Confirm CLS is below 0.1 and LCP is below 2.5s. If CLS is above 0.1, the `width`/`height` in `steps.ts` do not match the real files.
 
-- [ ] **Step 3: Verify**
-
-Run: `npm run build && npm run dev`
-
-Expected: real screenshots render inside the framed panels. Check at 1440px and 375px that nothing overflows and the text in the screenshots is legible at rendered size. If text is unreadable on mobile, crop the screenshot tighter rather than scaling it down.
-
-Run Lighthouse on the homepage. Confirm CLS is below 0.1 and LCP is below 2.5s.
-
-- [ ] **Step 4: Commit**
+- [ ] **Step 3: Commit only if something changed**
 
 ```bash
-git add public/dashboard components/method/steps.ts
-git commit -m "feat: real dashboard screenshots in method section"
+git add -A
+git commit -m "fix: crop method screenshots for mobile legibility"
 ```
+
+**Future:** once a client has two or more completed measurement cycles, capture the Runs view and add a `shot` to the `rerun` step in `steps.ts`. Until then it correctly renders the typographic panel.
 
 ---
 
