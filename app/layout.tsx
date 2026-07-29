@@ -5,21 +5,21 @@ import "./globals.css";
 const serif = Newsreader({
   subsets: ["latin"],
   style: ["normal", "italic"],
-  weight: ["400", "500", "600"],
+  weight: ["400"],
   variable: "--font-serif",
   display: "swap",
 });
 
 const sans = Schibsted_Grotesk({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["500", "600"],
   variable: "--font-sans",
   display: "swap",
 });
 
 const mono = IBM_Plex_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400"],
   variable: "--font-mono",
   display: "swap",
 });
@@ -27,7 +27,7 @@ const mono = IBM_Plex_Mono({
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   style: ["normal", "italic"],
-  weight: ["300", "400", "500"],
+  weight: ["300", "400"],
   variable: "--font-cormorant",
   display: "swap",
 });
