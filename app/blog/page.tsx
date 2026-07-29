@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { SiteNav } from "@/components/SiteNav";
 
 export const metadata: Metadata = {
   title: "Blog — Victory Velocity",
@@ -10,16 +11,7 @@ export const metadata: Metadata = {
 export default function BlogIndex() {
   return (
     <>
-      <nav className="blog-nav">
-        <Link href="/" className="mark">Victory&nbsp;Velocity</Link>
-        <div className="blog-nav-links">
-          <Link href="/#services">Services</Link>
-          <Link href="/#process">Approach</Link>
-          <Link href="/blog">Blog</Link>
-          <Link href="/about">About</Link>
-        </div>
-        <Link href="/#contact" className="cta">Work With Us</Link>
-      </nav>
+      <SiteNav />
 
       <main>
         <div className="blog-wrap-wide">

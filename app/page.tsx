@@ -3,29 +3,17 @@
 import { useState, useEffect } from "react";
 import React from "react";
 import { GEOVisual, AdsManagerVisual, WeeklyReportVisual } from "@/components/ServiceVisuals";
+import { SiteNav } from "@/components/SiteNav";
 
 const ENGINES = ["ChatGPT", "Claude", "Perplexity", "Gemini", "Copilot", "Grok", "Meta AI", "DeepSeek"];
 const SEQ = [...ENGINES, ...ENGINES];
 const HOT_A = 2; // Perplexity is highlighted in top strip
 
 export default function Home() {
-  const [navScrolled, setNavScrolled] = useState(false);
-  const [navHidden, setNavHidden] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", url: "", message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
 
   useEffect(() => {
-    // nav scroll + hide on scroll down
-    let lastY = window.scrollY;
-    const onScroll = () => {
-      const y = window.scrollY;
-      setNavScrolled(y > 40);
-      setNavHidden(y > 80 && y > lastY);
-      lastY = y;
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-
     // scroll reveal
     const io = new IntersectionObserver(
       (entries) => {
@@ -38,7 +26,6 @@ export default function Home() {
     document.querySelectorAll(".rv").forEach((el) => io.observe(el));
 
     return () => {
-      window.removeEventListener("scroll", onScroll);
       io.disconnect();
     };
   }, []);
@@ -67,17 +54,7 @@ export default function Home() {
 
   return (
     <>
-      {/* ── NAV ── */}
-      <nav className={`nav${navScrolled ? " scrolled" : ""}${navHidden ? " hide" : ""}`} id="nav">
-        <div className="mark">Victory&nbsp;Velocity</div>
-        <div className="links">
-          <a href="#services">Services</a>
-          <a href="#process">Approach</a>
-          <a href="/blog">Blog</a>
-          <a href="/about">About</a>
-        </div>
-        <a href="#contact" className="cta">Work With Us</a>
-      </nav>
+      <SiteNav />
 
       {/* ── HERO ── */}
       <header className="hero">
