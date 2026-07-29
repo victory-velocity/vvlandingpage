@@ -13,7 +13,7 @@
   align-items: start;
 }
 
-.method-step { padding: 18vh 0; }
+.method-step { padding: 10vh 0; }
 .method-step:first-child { padding-top: 0; }
 .method-step:last-child { padding-bottom: 0; }
 
