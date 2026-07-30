@@ -143,6 +143,20 @@ section { position: relative; }
   42%, 68%  { transform: scaleX(1); }
 }
 
+/* ---- ambient point field ---- */
+.dot-field {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+@keyframes vvDotBreathe {
+  0%, 100% { opacity: 0.18; transform: scale(1); }
+  50%      { opacity: 0.62; transform: scale(1.5); }
+}
+/* Copy always sits above the field. */
+.shift .wrap, .anchor .wrap { position: relative; z-index: 1; }
+
 /* ---- shift ---- */
 .shift { background: var(--ink); }
 .shift .big {
@@ -376,6 +390,7 @@ footer .wrap { max-width: 720px; }
 @media (prefers-reduced-motion: reduce) {
   .rv { opacity: 1; transform: none; transition: none; }
   .track, .swipe::after { animation: none; }
+  .dot-field span { animation: none !important; }
 }
 
 /* ---- blog ---- */
