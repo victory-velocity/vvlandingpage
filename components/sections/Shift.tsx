@@ -1,25 +1,24 @@
-import { AnswerCollapse } from "./AnswerCollapse";
+import { RankVsCitation } from "./RankVsCitation";
 
 export function Shift() {
   return (
     <section className="shift sec-pad">
       <div className="wrap">
         <p className="big rv d1">
-          Your customers stopped searching.<br />
-          <span className="dim">They started </span>
-          <span className="it swipe">asking</span>
+          You can rank first<br />
+          <span className="dim">and still not be </span>
+          <span className="it swipe">named</span>
           <span className="dim">.</span>
         </p>
+        <p className="body rv d2">
+          Ranking first no longer means being named. AI engines don&apos;t hand back
+          your page, they hand back an answer assembled from other people&apos;s. You
+          can sit at position one on Google and appear nowhere in what ChatGPT says
+          about your category.
+        </p>
 
-        {/* Sits as the right cell of the body row, so its edges align with the
-            type by construction rather than by tuned values. */}
-        <div className="shift-row">
-          <p className="body rv d2">
-            When someone asks ChatGPT, Perplexity, or Google&apos;s AI for the best option,
-            they get one answer instead of ten blue links. If the model doesn&apos;t name you,
-            you&apos;re not in the conversation. We make sure your brand is the one it reaches for.
-          </p>
-          <AnswerCollapse />
+        <div className="rv d3">
+          <RankVsCitation />
         </div>
       </div>
     </section>
