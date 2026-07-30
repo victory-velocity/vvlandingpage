@@ -1,92 +1,28 @@
 "use client";
 
 import { useRef } from "react";
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-  type MotionValue,
-} from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 
 /**
- * Sparse parallax point field for the quieter sections.
+ * A lattice of points that moves as one surface. Each column bobs on the same
+ * animation with a staggered delay, so the offset sweeps across the field and
+ * reads as a single travelling wave rather than scattered specks. Scrolling
+ * drifts the whole field, so it responds to the reader as well as to time.
  *
- * Motivation, per the project's motion rules: the points read as the field of
- * questions being asked, and the parallax gives an otherwise flat section depth
- * as the reader moves through it. It is atmosphere, deliberately near the
- * threshold of visibility, not decoration competing with the copy.
+ * Motivation, per the project's motion rules: the wave gives the quiet sections
+ * a sense of a live surface underneath the copy, and the sweep carries the eye
+ * in the reading direction. It sits deliberately near the threshold of
+ * visibility so it never competes with the type.
  *
- * Driven by useScroll motion values rather than a scroll listener, and animates
- * only transform and opacity so it stays on the compositor.
+ * Only transform and opacity animate, and the sweep is a CSS keyframe rather
+ * than a JS loop, so the whole field stays on the compositor. Scroll response
+ * uses a motion value, never a scroll listener.
  */
 
-type LayerSpec = {
-  count: number;
-  size: number;
-  opacity: number;
-  /** Pixels of parallax travel across the section. Nearer layers move more. */
-  shift: number;
-};
-
-const LAYERS: LayerSpec[] = [
-  { count: 20, size: 1.5, opacity: 0.1, shift: 36 },
-  { count: 13, size: 2, opacity: 0.16, shift: 74 },
-  { count: 7, size: 3, opacity: 0.24, shift: 124 },
-];
-
-/** Deterministic, so the server and client render identical markup. */
-function noise(seed: number) {
-  const v = Math.sin(seed * 127.1) * 43758.5453;
-  return v - Math.floor(v);
-}
-
-function Layer({
-  progress,
-  spec,
-  offset,
-  still,
-}: {
-  progress: MotionValue<number>;
-  spec: LayerSpec;
-  offset: number;
-  still: boolean;
-}) {
-  const y = useTransform(progress, [0, 1], [spec.shift, -spec.shift]);
-
-  return (
-    <motion.div
-      style={{ position: "absolute", inset: 0, y: still ? 0 : y }}
-      aria-hidden="true"
-    >
-      {Array.from({ length: spec.count }, (_, i) => {
-        const seed = offset + i * 7.13;
-        const left = noise(seed) * 100;
-        const top = noise(seed + 1.7) * 100;
-        // A few points in the nearest layer breathe, standing in for a question
-        // being asked. Kept rare so it reads as incident, not decoration.
-        const breathes = spec.size === 3 && i % 3 === 0;
-        return (
-          <span
-            key={i}
-            style={{
-              position: "absolute",
-              left: `${left}%`,
-              top: `${top}%`,
-              width: `${spec.size}px`,
-              height: `${spec.size}px`,
-              borderRadius: "50%",
-              background: "var(--white)",
-              opacity: spec.opacity,
-              animation: breathes && !still ? `vvDotBreathe ${7 + (i % 3) * 2}s ease-in-out infinite` : undefined,
-              animationDelay: breathes ? `${i * 1.3}s` : undefined,
-            }}
-          />
-        );
-      })}
-    </motion.div>
-  );
-}
+const COLUMNS = 30;
+const ROWS = 6;
+/** Seconds of delay between neighbouring columns. Sets the wave's speed. */
+const STAGGER = 0.13;
 
 export function DotField({ seed = 1 }: { seed?: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -97,17 +33,40 @@ export function DotField({ seed = 1 }: { seed?: number }) {
     offset: ["start end", "end start"],
   });
 
+  const drift = useTransform(scrollYProgress, [0, 1], [40, -40]);
+
   return (
     <div className="dot-field" ref={ref} aria-hidden="true">
-      {LAYERS.map((spec, i) => (
-        <Layer
-          key={i}
-          progress={scrollYProgress}
-          spec={spec}
-          offset={seed * 100 + i * 31}
-          still={!!reduce}
-        />
-      ))}
+      <motion.div
+        style={{ position: "absolute", inset: 0, y: reduce ? 0 : drift }}
+      >
+        {Array.from({ length: COLUMNS }, (_, col) => (
+          <div
+            key={col}
+            className="dot-col"
+            style={{
+              left: `${((col + 0.5) / COLUMNS) * 100}%`,
+              // Negative delay starts every column mid-cycle, so the wave is
+              // already formed on first paint instead of building from flat.
+              animationDelay: reduce ? undefined : `${-(col * STAGGER + seed * 0.7)}s`,
+              animationPlayState: reduce ? "paused" : undefined,
+            }}
+          >
+            {Array.from({ length: ROWS }, (_, row) => (
+              <span
+                key={row}
+                className="dot"
+                style={{
+                  top: `${((row + 0.5) / ROWS) * 100}%`,
+                  // Rows fade toward the edges so the field has a soft horizon
+                  // rather than a hard rectangular boundary.
+                  opacity: 0.1 + Math.sin(((row + 0.5) / ROWS) * Math.PI) * 0.16,
+                }}
+              />
+            ))}
+          </div>
+        ))}
+      </motion.div>
     </div>
   );
 }
