@@ -1,14 +1,14 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { Metadata } from "next";
+import { SiteNav } from "@/components/SiteNav";
 
 export const metadata: Metadata = {
-  title: "About — Victory Velocity",
+  title: "About | Victory Velocity",
   description:
     "Meet the team behind Victory Velocity — a Canadian AI visibility agency helping brands get cited in AI answers and run ChatGPT Ads campaigns.",
   alternates: { canonical: "https://www.victoryvelocity.ca/about" },
   openGraph: {
-    title: "About — Victory Velocity",
+    title: "About | Victory Velocity",
     description:
       "Meet the co-founders of Victory Velocity, helping brands get cited in AI answers.",
     url: "https://www.victoryvelocity.ca/about",
@@ -19,16 +19,7 @@ export const metadata: Metadata = {
 export default function About() {
   return (
     <>
-      <nav className="blog-nav">
-        <Link href="/" className="mark">Victory&nbsp;Velocity</Link>
-        <div className="blog-nav-links">
-          <Link href="/#services">Services</Link>
-          <Link href="/#process">Approach</Link>
-          <Link href="/blog">Blog</Link>
-          <Link href="/about">About</Link>
-        </div>
-        <Link href="/#contact" className="cta">Work With Us</Link>
-      </nav>
+      <SiteNav />
 
       <main className="about-page">
         <div className="wrap">
@@ -102,7 +93,7 @@ export default function About() {
                 <p>
                   Previously worked at an ML startup, I saw firsthand how fast the AI landscape
                   is changing the online browsing experience. What took months of SEO work to
-                  rank is now getting rewritten by a language model in seconds — and most brands
+                  rank is now getting rewritten by a language model in seconds, and most brands
                   have no idea it&rsquo;s happening.
                 </p>
                 <p>

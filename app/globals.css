@@ -1,4 +1,7 @@
-/* Victory Velocity — landing page styles */
+/* Victory Velocity landing page styles */
+@import "./styles/nav.css";
+@import "./styles/method.css";
+
 :root {
   --ink: #0e0e0f;
   --ink-soft: #141416;
@@ -6,16 +9,16 @@
   --white: #f5f4f1;
   --paper: #f1ede4;
   --paper-ink: #17150f;
-  --mute: rgba(245,244,241,0.58);
-  --faint: rgba(245,244,241,0.36);
-  --ghost: rgba(245,244,241,0.13);
+  --mute: rgba(245,244,241,0.72);
+  --faint: rgba(245,244,241,0.55);
+  --ghost: rgba(245,244,241,0.18);
   --hair: rgba(245,244,241,0.11);
   --p-mute: rgba(23,21,15,0.60);
   --p-faint: rgba(23,21,15,0.40);
   --p-hair: rgba(23,21,15,0.14);
-  --serif: 'Newsreader', Georgia, serif;
-  --sans: 'Schibsted Grotesk', system-ui, sans-serif;
-  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  --serif: var(--font-serif), Georgia, serif;
+  --sans: var(--font-sans), system-ui, sans-serif;
+  --mono: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
 }
 
 @keyframes vvPulse {
@@ -120,10 +123,11 @@ section { position: relative; }
 .track .eng {
   font-family: var(--serif); font-size: clamp(30px, 4vw, 50px); color: var(--faint);
   display: inline-flex; align-items: center; gap: 64px;
+  transition: color .7s ease;
 }
+.track .eng.hot { color: var(--white); }
 .track.rev .eng { font-style: italic; }
 .track .eng .star { font-family: var(--sans); font-size: 14px; color: var(--ghost); }
-.track .eng.hot { color: var(--white); }
 @keyframes vvMarquee    { from { transform: translateX(0); }    to { transform: translateX(-50%); } }
 @keyframes vvMarqueeRev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 
@@ -139,65 +143,78 @@ section { position: relative; }
   42%, 68%  { transform: scaleX(1); }
 }
 
-/* ---- shift ---- */
-.shift { background: var(--ink); }
+/* ---- proof ----
+   One number, set as large as the page will allow. It is the loudest thing in
+   the section on purpose: the claim above it is an assertion, this is the
+   evidence, and it should be legible from across the room. The date window
+   above the figure keeps the multiple honest and doubles as the small mark
+   that makes the big one feel deliberate. */
+.proof {
+  display: flex; flex-direction: column; align-items: center;
+  max-width: 720px; margin: clamp(52px, 6vw, 74px) auto 0;
+  padding: clamp(44px, 5vw, 64px) 0;
+  border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair);
+}
+/* Figure and caption share a baseline so the whole claim is one line to read.
+   Wrapping is allowed, but the caption is short enough that it only happens on
+   narrow phones. */
+.proof-line {
+  display: flex; flex-wrap: wrap;
+  align-items: baseline; justify-content: center;
+  gap: clamp(12px, 1.6vw, 22px); margin: 0;
+}
+.proof-figure {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(76px, 11vw, 148px); line-height: 0.86;
+  letter-spacing: -0.05em; color: var(--white);
+}
+/* The multiplication sign is drawn far heavier than the digits at this size,
+   so it is set back to keep the numeral the thing you read first. */
+.proof-x { font-size: 0.38em; color: var(--faint); margin-left: 0.01em; vertical-align: 0.26em; }
+.proof-claim {
+  font-family: var(--serif); font-size: clamp(21px, 2.6vw, 34px);
+  line-height: 1.3; color: var(--white); letter-spacing: -0.015em;
+}
+.proof-cite {
+  display: inline-block; margin-top: clamp(24px, 2.8vw, 34px);
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faint); border-bottom: 1px solid var(--ghost); padding-bottom: 3px;
+  transition: color .25s, border-color .25s;
+}
+.proof-cite:hover { color: var(--white); border-color: var(--white); }
+
+/* ---- shift ----
+   Centred so it sits directly under the hero as one continuous column:
+   claim, evidence, reason. Top padding is short on purpose — the hero and
+   this section are a single thought. */
+.shift { background: var(--ink); text-align: center; padding: 96px 0 112px; }
 .shift .big {
   font-family: var(--serif); font-weight: 400;
   font-size: clamp(34px, 5vw, 68px); line-height: 1.06;
-  letter-spacing: -0.02em; max-width: 1000px;
+  letter-spacing: -0.02em; max-width: 900px; margin: 0 auto;
 }
 .shift .big .it  { font-style: italic; }
 .shift .big .dim { color: var(--faint); }
-.shift .body {
-  font-size: 21px; line-height: 1.62; color: var(--mute);
-  max-width: 520px; margin-top: 44px;
-}
 
-/* ---- ways ---- */
-.ways { background: var(--ink-soft); padding-top: 96px; }
-.ways .head {
-  display: grid; grid-template-columns: 1.15fr 0.85fr;
-  gap: clamp(40px, 6vw, 90px); align-items: end; margin-bottom: 14px;
-}
-.ways h2 {
+/* ---- agency anchor ---- */
+.anchor { background: var(--ink); }
+.anchor h2 {
   font-family: var(--serif); font-weight: 400;
-  font-size: clamp(34px, 4.4vw, 58px); line-height: 1.02;
-  letter-spacing: -0.02em; margin: 0; max-width: 620px;
+  font-size: clamp(34px, 4.8vw, 62px); line-height: 1.06;
+  letter-spacing: -0.02em; margin: 0 0 48px; max-width: 780px;
 }
-.ways h2 .it { font-style: italic; }
-.head-aside { display: flex; flex-direction: column; align-items: flex-start; gap: 26px; padding-bottom: 6px; }
-.head-aside p { font-size: 18px; line-height: 1.6; color: var(--mute); margin: 0; max-width: 400px; }
-.lead-in {
-  font-family: var(--serif); font-style: italic;
-  font-size: clamp(18px, 1.7vw, 23px); color: rgba(245,244,241,0.72);
-  margin: 0 0 16px; display: block;
+.anchor h2 .it { font-style: italic; }
+.anchor-body {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 72px); max-width: 900px;
 }
-
-.way {
-  display: grid; grid-template-columns: 0.92fr 1.08fr;
-  gap: clamp(40px, 6vw, 96px); align-items: center; padding: 72px 0;
-  border-top: 1px solid var(--hair);
-}
-.way-list .way:first-child { padding-top: 40px; }
-.way:nth-child(even) .way-copy { order: 2; }
-.way:nth-child(even) .way-vis  { order: 1; }
-.way-no {
-  font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em;
-  color: rgba(245,244,241,0.72); text-transform: uppercase;
-}
-.way h3 {
-  font-family: var(--serif); font-weight: 400;
-  font-size: clamp(32px, 3.6vw, 50px); line-height: 1.02;
-  letter-spacing: -0.02em; margin: 22px 0;
-}
-.way h3 .it { font-style: italic; }
-.way-copy p { font-size: 18.5px; line-height: 1.62; color: var(--mute); margin: 0; max-width: 430px; }
-.way-vis { display: flex; justify-content: center; min-width: 0; }
+.anchor-body p { font-size: 19px; line-height: 1.65; color: var(--mute); margin: 0; }
 
 /* mockup base */
 .mk { width: 100%; max-width: 600px; font-family: var(--serif); }
 
-/* mk-chat — GEO live answer card */
+/* mk-chat - GEO live answer card */
 .mk-chat {
   background: rgba(20,20,22,0.94); border: 1px solid var(--hair);
   border-radius: 14px; box-shadow: 0 40px 90px -40px rgba(0,0,0,0.8); overflow: hidden;
@@ -238,61 +255,7 @@ section { position: relative; }
   padding: 5px 11px; border-radius: 5px; color: var(--ink); background: var(--white);
 }
 
-/* mk-form — ChatGPT Ads campaign builder */
-.mk-form {
-  background: var(--white); color: var(--paper-ink); border-radius: 12px;
-  overflow: hidden; box-shadow: 0 40px 90px -40px rgba(0,0,0,0.7);
-  font-family: var(--sans);
-}
-.mk-form .fbar {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 20px; border-bottom: 1px solid rgba(23,21,15,0.1);
-}
-.mk-form .fbar .ftitle { font-weight: 600; font-size: 14px; display: flex; gap: 8px; align-items: center; }
-.mk-form .fbar .fx { color: var(--p-faint); font-size: 16px; line-height: 1; }
-.mk-form .fmain { display: grid; grid-template-columns: 168px 1fr; }
-.mk-form .fsteps { padding: 22px 18px; border-right: 1px solid rgba(23,21,15,0.08); }
-.mk-form .fstep {
-  display: flex; gap: 10px; align-items: center; font-size: 12.5px;
-  color: var(--p-faint); margin-bottom: 16px;
-}
-.mk-form .fstep.active { color: var(--paper-ink); }
-.mk-form .fstep .sdot {
-  width: 18px; height: 18px; border-radius: 50%;
-  border: 1px solid rgba(23,21,15,0.3);
-  display: grid; place-items: center; font-size: 10px; flex: none;
-}
-.mk-form .fstep.active .sdot {
-  background: var(--paper-ink); color: #fff; border-color: var(--paper-ink);
-}
-.mk-form .fchip {
-  display: flex; gap: 7px; align-items: center;
-  margin: 0 0 18px 28px; background: rgba(23,21,15,0.05);
-  border-radius: 6px; padding: 7px 10px; font-size: 12px; color: var(--paper-ink);
-}
-.mk-form .fchip .fdot {
-  width: 6px; height: 6px; border-radius: 6px; background: var(--paper-ink); flex: none;
-}
-.mk-form .fbody { padding: 22px; display: flex; flex-direction: column; gap: 17px; }
-.mk-form .fld .flab { font-size: 12px; color: var(--p-mute); margin-bottom: 7px; }
-.mk-form .fld .inp {
-  border: 1px solid rgba(23,21,15,0.18); border-radius: 7px; padding: 11px 13px;
-  font-size: 14px; color: var(--paper-ink);
-  display: flex; justify-content: space-between; align-items: center; gap: 8px;
-}
-.mk-form .fld .hint { font-size: 11px; color: var(--p-faint); margin-top: 6px; }
-.mk-form .fld .chev { color: var(--p-faint); font-size: 11px; }
-.mk-form .fld .cur  { color: var(--p-faint); font-size: 12px; }
-.mk-form .ffoot {
-  padding: 14px 22px; border-top: 1px solid rgba(23,21,15,0.1);
-  display: flex; justify-content: flex-end;
-}
-.mk-form .fnext {
-  background: var(--paper-ink); color: #fff; border-radius: 7px;
-  padding: 11px 16px; font-size: 13px; font-weight: 600;
-}
-
-/* mk-report — weekly tracking panel */
+/* mk-report - weekly tracking panel */
 .mk-report {
   background: var(--ink-2); border: 1px solid var(--hair); border-radius: 12px;
   overflow: hidden; box-shadow: 0 40px 90px -40px rgba(0,0,0,0.8);
@@ -330,27 +293,6 @@ section { position: relative; }
 .mk-report .row .b.cited { color: var(--ink); background: var(--white); }
 .mk-report .row .b.no   { color: var(--faint); border: 1px solid var(--hair); }
 
-/* ---- process ---- */
-.process { background: var(--ink-soft); }
-.steps { border-top: 1px solid var(--hair); }
-.step {
-  display: grid; grid-template-columns: 120px 1fr 1.1fr; gap: 40px;
-  align-items: start; padding: 42px 0; border-bottom: 1px solid var(--hair);
-  transition: padding-left .4s ease;
-}
-.step:hover { padding-left: 14px; }
-.step .sn {
-  font-family: var(--sans); font-size: 13px; font-weight: 600;
-  letter-spacing: 0.12em; color: var(--faint); padding-top: 8px;
-}
-.step h4 {
-  font-family: var(--serif); font-weight: 400;
-  font-size: clamp(28px, 3.2vw, 42px); line-height: 1;
-  letter-spacing: -0.018em; margin: 0;
-}
-.step h4 .it { font-style: italic; }
-.step p { font-size: 17.5px; line-height: 1.6; color: var(--mute); margin: 6px 0 0; max-width: 440px; }
-
 /* ---- faq ---- */
 .faq { background: #181818; }
 .faq-heading {
@@ -386,6 +328,16 @@ section { position: relative; }
   from { opacity: 0; transform: translateY(-8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+.faq-page { padding: 150px 0; min-height: calc(100vh - 78px); }
+.faq-more {
+  display: inline-block; margin-top: 40px;
+  font-family: var(--sans); font-size: 13px; font-weight: 500;
+  letter-spacing: 0.06em; color: var(--mute);
+  border-bottom: 1px solid var(--ghost); padding-bottom: 4px;
+  transition: color .25s, border-color .25s;
+}
+.faq-more:hover { color: var(--white); border-color: var(--white); }
 
 /* ---- close / contact ---- */
 .close { background: var(--ink); text-align: center; padding: 170px 0 150px; }
@@ -464,6 +416,7 @@ footer .wrap { max-width: 720px; }
 @media (prefers-reduced-motion: reduce) {
   .rv { opacity: 1; transform: none; transition: none; }
   .track, .swipe::after { animation: none; }
+
 }
 
 /* ---- blog ---- */
@@ -545,7 +498,7 @@ footer .wrap { max-width: 720px; }
   padding-left: 28px; position: relative;
 }
 .blog-body ul li::before {
-  content: "—"; position: absolute; left: 0;
+  content: "-"; position: absolute; left: 0;
   color: var(--faint); font-family: var(--serif);
 }
 .blog-body ol { counter-reset: blog-ol; }
@@ -678,7 +631,7 @@ footer .wrap { max-width: 720px; }
 }
 
 .about-name {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-cormorant), Georgia, serif;
   font-weight: 400;
   font-size: clamp(52px, 6.4vw, 90px);
   line-height: 0.95;
@@ -753,6 +706,7 @@ footer .wrap { max-width: 720px; }
   .way:nth-child(even) .way-vis  { order: 2; }
   .way-copy p { max-width: none; }
   .step { grid-template-columns: 1fr; gap: 14px; }
+  .anchor-body { grid-template-columns: 1fr; gap: 24px; }
   .cform .grid2 { grid-template-columns: 1fr; gap: 0; }
   .sec-pad { padding: 96px 0; }
   .faq-heading { margin-bottom: 48px; }

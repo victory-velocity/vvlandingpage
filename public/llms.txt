@@ -1,23 +1,36 @@
 # Victory Velocity
 
-> Victory Velocity is a Canadian AI visibility and advertising agency that helps brands get cited in AI-generated answers and run campaigns on AI-native ad platforms. We specialize in Generative Engine Optimization (GEO), ChatGPT Ads management, and weekly AI citation tracking across every major generative engine.
+> Victory Velocity is a Canadian agency that gets brands named when someone asks an AI engine for a recommendation. We measure where a brand currently stands across ChatGPT, Claude, Gemini and Perplexity, fix what stops those engines reading the site, build authority in the places those answers draw from, and re-run the whole cycle so movement is measured rather than asserted.
 
-Victory Velocity works with brands that want to be present when customers ask AI for recommendations. As search behavior shifts from keyword queries to conversational AI prompts, we build the technical foundation, content architecture, and ad presence that makes brands the answer AI reaches for.
+We are an agency, not a piece of software. Every client gets a shared channel with us and can raise a question at any time, and we get on a call whenever something is too tangled to explain over text. The people answering are the people doing the work.
+
+## How we work
+
+1. Measure. We build the real set of buying intents for a client's business rather than guessing at prompts, and test each intent across multiple phrasings through ChatGPT, Claude, Gemini and Perplexity. Every answer is recorded three ways: whether the brand was mentioned, whether it was cited with a link, and how strongly it was positioned, graded from a passing mention up to the primary recommendation. Named competitors run through the identical set, which produces a per-engine map of every intent where a competitor gets named and the client does not.
+
+2. Fix. A deterministic technical audit runs page by page across the client's site. It begins with whether the seven major AI crawlers are allowed in at all: GPTBot, OAI-SearchBot, ChatGPT-User, PerplexityBot, ClaudeBot, Google-Extended and CCBot. It then covers sitemaps, schema markup, meta titles and descriptions, canonicals, HTTPS and mixed content, broken internal and external links, image alt text, and page speed. On a recent client site that came to 222 individual checks. Findings group into action cards carrying a risk rating and exact step-by-step instructions for the client's platform. Nothing applies itself: the client approves, we apply, then we re-run the audit to verify the fix landed.
+
+3. Build authority. This step is human work, not software. We take the specific intents where competitors get named and the client does not, then build presence in the places those answers are drawn from: the directories, publications, comparison pages and communities the models pull from for that category. Every placement is chosen against a gap we measured.
+
+4. Re-run. We re-run the full measurement and the audit on a cycle, showing visibility movement per intent and per category, position against each competitor, which fixes were applied and verified, and which regressed.
 
 ## Services
 
-- [Generative Engine Optimization (GEO)](https://www.victoryvelocity.ca/#services): We build the schema markup, topic clusters, and content architecture that earns AI citations across ChatGPT, Perplexity, Claude, Gemini, Copilot, Grok, Meta AI, and DeepSeek.
-- [ChatGPT Ads Management](https://www.victoryvelocity.ca/#services): We set up and manage campaigns on OpenAI's native ad platform, targeting customers mid-conversation by conversation type rather than keywords.
-- [Weekly AI Visibility Tracking](https://www.victoryvelocity.ca/#services): We run systematic prompt checks across major generative engines every week and deliver reports showing where your brand appears, in what context, and what has changed.
+- [AI Visibility Measurement](https://www.victoryvelocity.ca/#method): Intent-level measurement across ChatGPT, Claude, Gemini and Perplexity, tracking mention rate, citation rate, positioning strength, and competitor comparison per engine.
+- [AI Technical Site Audit](https://www.victoryvelocity.ca/#method): A deterministic audit of AI crawler access, sitemaps, schema markup, metadata, canonicals, HTTPS, links, images and page speed, delivered as reviewable action cards that are applied only on approval and verified by re-audit.
 
 ## Key Information
 
-- [Homepage](https://www.victoryvelocity.ca): Overview of services, approach, and how to get started.
-- [Blog](https://www.victoryvelocity.ca/blog): Editorial content on AI visibility, GEO, and the shift from traditional search to generative AI.
-- [The Biggest Shift in Marketing Since Google Ads](https://www.victoryvelocity.ca/blog/the-biggest-shift-in-marketing-since-google-ads): An in-depth article on how generative AI is restructuring the marketing landscape.
+- [Homepage](https://www.victoryvelocity.ca): The four-step method, how to reach us, and how to get started.
+- [FAQ](https://www.victoryvelocity.ca/faq): Detailed answers on what we measure, what the audit covers, how movement is proven, and what we need to begin.
+- [About](https://www.victoryvelocity.ca/about): The co-founders, Kaden Yeung and Jared Shum.
+- [Blog](https://www.victoryvelocity.ca/blog): Writing on AI visibility and the shift from traditional search to generative answers.
 
 ## What We Do Not Do
 
+- We do not change a client's website without approval. Audit findings are proposals until the client accepts them.
+- We do not guarantee rankings or placements. AI engines refresh what they retrieve on their own schedules, so movement arrives in weeks rather than days.
+- We do not report progress we cannot evidence. If a measurement cycle has not run, we do not claim a change.
 - Traditional SEO or keyword-based search optimization
 - Google Ads, Meta Ads, or other legacy paid media management
 - Social media marketing or content creation unrelated to AI visibility
