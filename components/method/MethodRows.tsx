@@ -1,13 +1,13 @@
 "use client";
 
-import { GEOVisual, AuditVisual, NetworkDiagram, WeeklyReportVisual } from "@/components/ServiceVisuals";
+import { MeasureVisual, AuditVisual, AuthorityVisual, RerunVisual } from "@/components/ServiceVisuals";
 import { STEPS } from "./steps";
 
 const VISUALS: Record<string, () => JSX.Element> = {
-  measure: GEOVisual,
+  measure: MeasureVisual,
   fix: AuditVisual,
-  authority: NetworkDiagram,
-  rerun: WeeklyReportVisual,
+  authority: AuthorityVisual,
+  rerun: RerunVisual,
 };
 
 export function MethodRows() {
