@@ -1,11 +1,17 @@
-import { RankVsCitation } from "./RankVsCitation";
-
 /**
- * Claim, then third party evidence for it, then a demonstration.
+ * The claim, then one number for it. Two beats, nothing else.
  *
- * Both figures are real and verified at source. Do not adjust either number,
- * and do not add a statistic here without a checkable citation: the whole
- * point of this section is that a prospect can go and confirm it.
+ * This sits immediately under the hero: ranking is not being named, and the
+ * channel that does the naming is growing fast.
+ *
+ * One statistic, not several. The number has to say the new channel is rising
+ * — not that the old one is declining, which a reader already feels. Do not
+ * adjust the figure, and do not add a second one without a checkable citation.
+ *
+ * Every line here earns its place or goes. Adobe measured US retail sites, so
+ * the scope and the start date live in the citation rather than in the claim:
+ * that keeps the claim readable in one pass without overstating the study, and
+ * puts the qualifiers where a skeptical reader already looks for them.
  */
 export function Shift() {
   return (
@@ -18,44 +24,22 @@ export function Shift() {
           <span className="dim">.</span>
         </p>
 
-        <div className="proof rv d2">
-          <div className="proof-main">
-            <span className="proof-figure">58%</span>
-            <p className="proof-claim">
-              lower clickthrough rate for the number one result, once Google
-              answers the question itself.
-            </p>
-          </div>
+        <figure className="proof rv d2">
+          <p className="proof-line">
+            <span className="proof-figure">
+              14<span className="proof-x">×</span>
+            </span>
+            <span className="proof-claim">more clicks from AI answers.</span>
+          </p>
           <a
             className="proof-cite"
-            href="https://ahrefs.com/blog/ai-overviews-reduce-clicks-update"
+            href="https://www.digitalcommerce360.com/2026/06/17/adobe-ai-referred-traffic-to-retail-sites-doubles-in-a-year/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Ahrefs, 300,000 keywords, December 2023 against December 2025
+            Adobe Analytics · US retail sites · since Oct 2024
           </a>
-          <p className="proof-second">
-            And 68% of Google searches now end without any click at all.{" "}
-            <a
-              href="https://sparktoro.com/blog/in-2026-less-than-one-third-of-google-searches-still-send-a-click/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              SparkToro, June 2026
-            </a>
-          </p>
-        </div>
-
-        <p className="body rv d3">
-          Ranking is no longer the same thing as being named. AI engines don&apos;t
-          hand back your page, they hand back an answer built from other
-          people&apos;s. You can sit at position one and appear nowhere in what
-          ChatGPT says about your category.
-        </p>
-
-        <div className="rv d3">
-          <RankVsCitation />
-        </div>
+        </figure>
       </div>
     </section>
   );
