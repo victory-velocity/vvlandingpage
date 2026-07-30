@@ -154,8 +154,7 @@ section { position: relative; }
   -webkit-mask-image: radial-gradient(closest-side at 50% 50%, #000 30%, transparent 100%);
           mask-image: radial-gradient(closest-side at 50% 50%, #000 30%, transparent 100%);
 }
-.mesh-shift  { right: 6%;  bottom: 8%;  width: clamp(220px, 26vw, 360px); height: clamp(180px, 20vw, 260px); }
-.mesh-anchor { right: 7%;  top: 14%;    width: clamp(200px, 23vw, 320px); height: clamp(170px, 18vw, 240px); }
+.mesh { right: 2%; bottom: 4%; width: clamp(320px, 46vw, 660px); height: clamp(300px, 36vw, 500px); }
 
 /* One strip per column, carrying a repeating dot pattern. Far cheaper than a
    node per point, and dense enough to read as a woven sheet. */

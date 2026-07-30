@@ -2,7 +2,7 @@ import { DotField } from "./DotField";
 export function Shift() {
   return (
     <section className="shift sec-pad">
-      <DotField variant="shift" seed={1} />
+      <DotField />
       <div className="wrap">
         <p className="big rv d1">
           Your customers stopped searching.<br />
