@@ -2,7 +2,7 @@ import { DotField } from "./DotField";
 export function AgencyAnchor() {
   return (
     <section className="anchor sec-pad">
-      <DotField seed={2} />
+      <DotField variant="anchor" seed={2} />
       <div className="wrap">
         <h2 className="rv">You&apos;re never talking to a <span className="it">dashboard</span>.</h2>
         <div className="anchor-body">
