@@ -9,9 +9,9 @@
   --white: #f5f4f1;
   --paper: #f1ede4;
   --paper-ink: #17150f;
-  --mute: rgba(245,244,241,0.58);
-  --faint: rgba(245,244,241,0.36);
-  --ghost: rgba(245,244,241,0.13);
+  --mute: rgba(245,244,241,0.72);
+  --faint: rgba(245,244,241,0.55);
+  --ghost: rgba(245,244,241,0.18);
   --hair: rgba(245,244,241,0.11);
   --p-mute: rgba(23,21,15,0.60);
   --p-faint: rgba(23,21,15,0.40);
@@ -141,6 +141,40 @@ section { position: relative; }
 @keyframes vvHi {
   0%, 100% { transform: scaleX(0); }
   42%, 68%  { transform: scaleX(1); }
+}
+
+/* ---- proof ---- */
+.proof {
+  margin-top: 52px; padding: 34px 0 30px;
+  border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair);
+  max-width: 720px;
+}
+.proof-main { display: flex; align-items: baseline; gap: clamp(20px, 3vw, 34px); }
+.proof-figure {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(56px, 8vw, 104px); line-height: 0.9;
+  letter-spacing: -0.03em; color: var(--white); flex: none;
+}
+.proof-claim {
+  font-family: var(--serif); font-size: clamp(17px, 1.7vw, 21px);
+  line-height: 1.5; color: var(--white); margin: 0; max-width: 400px;
+}
+.proof-cite {
+  display: inline-block; margin-top: 20px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+  color: var(--mute); border-bottom: 1px solid var(--ghost); padding-bottom: 3px;
+  transition: color .25s, border-color .25s;
+}
+.proof-cite:hover { color: var(--white); border-color: var(--white); }
+.proof-second {
+  font-family: var(--serif); font-size: 16.5px; line-height: 1.55;
+  color: var(--mute); margin: 22px 0 0;
+}
+.proof-second a { color: var(--white); border-bottom: 1px solid var(--ghost); padding-bottom: 1px; }
+.proof-second a:hover { border-color: var(--white); }
+
+@media (max-width: 900px) {
+  .proof-main { flex-direction: column; gap: 14px; }
 }
 
 /* ---- rank versus citation ---- */

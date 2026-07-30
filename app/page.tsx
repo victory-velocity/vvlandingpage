@@ -48,9 +48,8 @@ export default function Home() {
       <SiteNav />
       <Hero />
       <Shift />
-      <AgencyAnchor />
-
       <MethodRows />
+      <AgencyAnchor />
 
       <FaqTeaser />
 
