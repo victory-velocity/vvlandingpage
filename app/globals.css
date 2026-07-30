@@ -150,11 +150,30 @@ section { position: relative; }
   pointer-events: none;
   overflow: hidden;
   z-index: 0;
-  /* Soft on every edge so it reads as a drift, not a pasted rectangle. */
-  -webkit-mask-image: radial-gradient(closest-side at 50% 50%, #000 30%, transparent 100%);
-          mask-image: radial-gradient(closest-side at 50% 50%, #000 30%, transparent 100%);
+  /* Wider than tall, echoing the horizontal rhythm of the type rather than
+     sitting as a circular blob. Soft on every edge so it drifts out. */
+  -webkit-mask-image: radial-gradient(ellipse 62% 58% at 50% 50%, #000 12%, transparent 100%);
+          mask-image: radial-gradient(ellipse 62% 58% at 50% 50%, #000 12%, transparent 100%);
 }
-.mesh { right: 2%; bottom: 4%; width: clamp(320px, 46vw, 660px); height: clamp(300px, 36vw, 500px); }
+/* The mesh occupies the right cell of the body row, so its top edge sits on
+   the paragraph's top edge and its right edge on the type's right margin.
+   Both alignments hold at every width without tuned values. */
+.shift-row {
+  display: grid;
+  grid-template-columns: minmax(0, 520px) 1fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+  margin-top: 44px;
+}
+.shift .body { margin-top: 0; }
+.mesh {
+  position: relative;
+  width: 100%;
+  height: clamp(240px, 27vw, 380px);
+  /* Lift slightly so the sheet's optical centre reads level with the paragraph
+     rather than hanging below it. */
+  margin-top: -18px;
+}
 
 /* One strip per column, carrying a repeating dot pattern. Far cheaper than a
    node per point, and dense enough to read as a woven sheet. */
@@ -176,6 +195,7 @@ section { position: relative; }
 
 @media (max-width: 900px) {
   /* Not enough negative space to place it well on a phone. */
+  .shift-row { grid-template-columns: 1fr; }
   .mesh { display: none; }
 }
 
