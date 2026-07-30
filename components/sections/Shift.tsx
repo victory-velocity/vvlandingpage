@@ -1,4 +1,4 @@
-import { DotField } from "./DotField";
+import { AnswerCollapse } from "./AnswerCollapse";
 
 export function Shift() {
   return (
@@ -11,16 +11,15 @@ export function Shift() {
           <span className="dim">.</span>
         </p>
 
-        {/* The mesh is a grid cell beside the copy rather than a floated
-            element, so its top and right edges align with the type by
-            construction instead of by tuned percentages. */}
+        {/* Sits as the right cell of the body row, so its edges align with the
+            type by construction rather than by tuned values. */}
         <div className="shift-row">
           <p className="body rv d2">
             When someone asks ChatGPT, Perplexity, or Google&apos;s AI for the best option,
             they get one answer instead of ten blue links. If the model doesn&apos;t name you,
             you&apos;re not in the conversation. We make sure your brand is the one it reaches for.
           </p>
-          <DotField />
+          <AnswerCollapse />
         </div>
       </div>
     </section>

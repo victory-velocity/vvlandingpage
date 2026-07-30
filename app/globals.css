@@ -143,21 +143,7 @@ section { position: relative; }
   42%, 68%  { transform: scaleX(1); }
 }
 
-/* ---- ambient mesh ---- */
-/* A contained patch in a section's negative space, never behind the copy. */
-.mesh {
-  position: absolute;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 0;
-  /* Wider than tall, echoing the horizontal rhythm of the type rather than
-     sitting as a circular blob. Soft on every edge so it drifts out. */
-  -webkit-mask-image: radial-gradient(ellipse 62% 58% at 50% 50%, #000 12%, transparent 100%);
-          mask-image: radial-gradient(ellipse 62% 58% at 50% 50%, #000 12%, transparent 100%);
-}
-/* The mesh occupies the right cell of the body row, so its top edge sits on
-   the paragraph's top edge and its right edge on the type's right margin.
-   Both alignments hold at every width without tuned values. */
+/* ---- ten links become one answer ---- */
 .shift-row {
   display: grid;
   grid-template-columns: minmax(0, 520px) 1fr;
@@ -166,37 +152,33 @@ section { position: relative; }
   margin-top: 44px;
 }
 .shift .body { margin-top: 0; }
-.mesh {
-  position: relative;
-  width: 100%;
-  height: clamp(240px, 27vw, 380px);
-  /* Lift slightly so the sheet's optical centre reads level with the paragraph
-     rather than hanging below it. */
-  margin-top: -18px;
-}
 
-/* One strip per column, carrying a repeating dot pattern. Far cheaper than a
-   node per point, and dense enough to read as a woven sheet. */
-.mesh-col {
-  position: absolute;
-  top: -30px; bottom: -30px;
-  background-image: radial-gradient(circle at center, rgba(245,244,241,0.5) 0.7px, transparent 1px);
-  background-size: 100% 7px;
-  background-repeat: repeat-y;
-  animation: vvWave 4.2s ease-in-out infinite;
-  will-change: transform;
+.collapse { position: relative; padding-top: 6px; }
+.collapse-label {
+  font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--faint); margin-bottom: 22px;
+  transition: color .6s ease;
 }
-@keyframes vvWave {
-  0%, 100% { transform: translate3d(0, -5px, 0); }
-  50%      { transform: translate3d(0,  5px, 0); }
+.collapse-label.on { color: var(--white); }
+
+.collapse-stack { position: relative; height: 170px; }
+.collapse-rule {
+  position: absolute; left: 0;
+  height: 1px;
+  background: var(--white);
+  transition:
+    transform .85s cubic-bezier(.65,0,.35,1),
+    opacity .6s ease,
+    width .85s cubic-bezier(.65,0,.35,1);
 }
-/* Copy always sits above the patch. */
-.shift .wrap, .anchor .wrap { position: relative; z-index: 1; }
+.collapse-rule.survivor { height: 2px; }
 
 @media (max-width: 900px) {
-  /* Not enough negative space to place it well on a phone. */
-  .shift-row { grid-template-columns: 1fr; }
-  .mesh { display: none; }
+  .shift-row { grid-template-columns: 1fr; gap: 48px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .collapse-rule { transition: none; }
 }
 
 /* ---- shift ---- */
@@ -432,7 +414,7 @@ footer .wrap { max-width: 720px; }
 @media (prefers-reduced-motion: reduce) {
   .rv { opacity: 1; transform: none; transition: none; }
   .track, .swipe::after { animation: none; }
-  .mesh-col { animation: none !important; }
+
 }
 
 /* ---- blog ---- */
