@@ -123,20 +123,9 @@ section { position: relative; }
 .track .eng {
   font-family: var(--serif); font-size: clamp(30px, 4vw, 50px); color: var(--faint);
   display: inline-flex; align-items: center; gap: 64px;
+  transition: color .7s ease;
 }
-/* Pulse is synced to the 30s track translation, so each engine lights as it
-   crosses roughly the same screen position rather than drifting out of view. */
-.track .eng.pulse {
-  animation: vvEngPulse 30s linear infinite;
-  animation-delay: calc(var(--i) * -3.75s);
-}
-@keyframes vvEngPulse {
-  0%   { color: var(--faint); }
-  4%   { color: var(--white); }
-  9%   { color: var(--white); }
-  13%  { color: var(--faint); }
-  100% { color: var(--faint); }
-}
+.track .eng.hot { color: var(--white); }
 .track.rev .eng { font-style: italic; }
 .track .eng .star { font-family: var(--sans); font-size: 14px; color: var(--ghost); }
 @keyframes vvMarquee    { from { transform: translateX(0); }    to { transform: translateX(-50%); } }
@@ -386,7 +375,7 @@ footer .wrap { max-width: 720px; }
 .rv.d3  { transition-delay: .24s; }
 @media (prefers-reduced-motion: reduce) {
   .rv { opacity: 1; transform: none; transition: none; }
-  .track, .swipe::after, .track .eng.pulse { animation: none; }
+  .track, .swipe::after { animation: none; }
 }
 
 /* ---- blog ---- */
