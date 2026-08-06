@@ -5,13 +5,12 @@ export function AgencyAnchor() {
         <h2 className="rv">You&apos;re never talking to a <span className="it">dashboard</span>.</h2>
         <div className="anchor-body">
           <p className="rv d1">
-            Every client gets a shared channel with us. Drop a question in it whenever
-            one comes up, and when something is too tangled to explain over text, we get
-            on a call about it.
+            We take the time to understand how your business fits in the market and
+            what your customers ask the most, before recommending anything.
           </p>
           <p className="rv d2">
-            The people answering are the people doing the work. There is no account
-            manager in between, and no ticket queue to sit in.
+            That is the blueprint of Victory Velocity, to adapt with iterative
+            solutions while your business moves forward.
           </p>
         </div>
       </div>

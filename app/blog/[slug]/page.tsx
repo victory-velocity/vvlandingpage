@@ -2,6 +2,8 @@ import { listArticles, getArticle } from "@/lib/babylovegrowth";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { SiteNav } from "@/components/SiteNav";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export const revalidate = 3600;
 
@@ -71,20 +73,7 @@ export default async function DynamicBlogPost({
         />
       )}
 
-      <nav className="blog-nav">
-        <Link href="/" className="mark">
-          Victory&nbsp;Velocity
-        </Link>
-        <div className="blog-nav-links">
-          <Link href="/#services">Services</Link>
-          <Link href="/#process">Approach</Link>
-          <Link href="/blog">Blog</Link>
-          <Link href="/about">About</Link>
-        </div>
-        <Link href="/#contact" className="cta">
-          Work With Us
-        </Link>
-      </nav>
+      <SiteNav />
 
       <main>
         <header className="blog-header">
@@ -122,37 +111,7 @@ export default async function DynamicBlogPost({
         </article>
       </main>
 
-      <footer>
-        <div className="wrap">
-          <div className="foot-row">
-            <div className="mark">Victory&nbsp;Velocity</div>
-            <div style={{ textAlign: "right" }}>
-              <p
-                style={{
-                  color: "var(--faint)",
-                  fontStyle: "italic",
-                  margin: "0 0 8px",
-                  lineHeight: 1.5,
-                  fontFamily: "var(--serif)",
-                  fontSize: "15px",
-                }}
-              >
-                AI visibility &amp; advertising for brands that intend to be cited.
-              </p>
-              <span
-                style={{
-                  fontFamily: "var(--sans)",
-                  fontSize: "12px",
-                  letterSpacing: "0.04em",
-                  color: "var(--faint)",
-                }}
-              >
-                © 2026 Victory Velocity
-              </span>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

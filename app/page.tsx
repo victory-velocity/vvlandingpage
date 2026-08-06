@@ -2,11 +2,12 @@
 
 import { useEffect } from "react";
 import { SiteNav } from "@/components/SiteNav";
+import { SiteFooter } from "@/components/SiteFooter";
 import { Hero } from "@/components/sections/Hero";
 import { Shift } from "@/components/sections/Shift";
 import { AgencyAnchor } from "@/components/sections/AgencyAnchor";
 import { MethodRows } from "@/components/method/MethodRows";
-import { FaqTeaser } from "@/components/sections/FaqTeaser";
+import { FaqTeaser, faqSchema } from "@/components/sections/FaqTeaser";
 import { Contact } from "@/components/sections/Contact";
 
 export default function Home() {
@@ -45,6 +46,10 @@ export default function Home() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <SiteNav />
       <Hero />
       <Shift />
@@ -55,19 +60,7 @@ export default function Home() {
 
       <Contact />
 
-      <footer>
-        <div className="wrap">
-          <div className="foot-row">
-            <div className="mark">Victory&nbsp;Velocity</div>
-            <div style={{ textAlign: "right" }}>
-              <p style={{ color: "var(--faint)", fontStyle: "italic", margin: "0 0 8px", lineHeight: 1.5, fontFamily: "var(--serif)", fontSize: "15px" }}>
-                AI visibility for brands that intend to be cited.
-              </p>
-              <span style={{ fontFamily: "var(--sans)", fontSize: "12px", letterSpacing: "0.04em", color: "var(--faint)" }}>© 2026 Victory Velocity</span>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

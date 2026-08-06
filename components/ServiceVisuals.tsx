@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import React from "react";
 
 const SANS: React.CSSProperties = { fontFamily: "var(--sans), system-ui, sans-serif" };
-const MONO: React.CSSProperties = { fontFamily: "var(--mono), ui-monospace, monospace" };
+const MONO: React.CSSProperties = { fontFamily: "var(--sans), system-ui, sans-serif" };
 const DISPLAY: React.CSSProperties = { fontFamily: "var(--font-cormorant), Georgia, serif" };
 
 const HAIR = "rgba(255,255,255,0.08)";

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { SiteNav } from "@/components/SiteNav";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export const metadata: Metadata = {
   title: "The Biggest Shift in Marketing Since Google Ads | Victory Velocity",
@@ -834,38 +835,7 @@ export default function BlogPost() {
         </article>
       </main>
 
-      <footer>
-        <div className="wrap">
-          <div className="foot-row">
-            <div className="mark">Victory&nbsp;Velocity</div>
-            <div style={{ textAlign: "right" }}>
-              <p
-                style={{
-                  color: "var(--faint)",
-                  fontStyle: "italic",
-                  margin: "0 0 8px",
-                  lineHeight: 1.5,
-                  fontFamily: "var(--serif)",
-                  fontSize: "15px",
-                }}
-              >
-                AI visibility &amp; advertising for brands that intend to be
-                cited.
-              </p>
-              <span
-                style={{
-                  fontFamily: "var(--sans)",
-                  fontSize: "12px",
-                  letterSpacing: "0.04em",
-                  color: "var(--faint)",
-                }}
-              >
-                © 2026 Victory Velocity
-              </span>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

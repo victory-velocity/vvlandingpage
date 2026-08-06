@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Newsreader, Schibsted_Grotesk, IBM_Plex_Mono, Cormorant_Garamond } from "next/font/google";
+import { Newsreader, Schibsted_Grotesk, Cormorant_Garamond } from "next/font/google";
+import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 
 const serif = Newsreader({
@@ -14,13 +15,6 @@ const sans = Schibsted_Grotesk({
   subsets: ["latin"],
   weight: ["500", "600"],
   variable: "--font-sans",
-  display: "swap",
-});
-
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-mono",
   display: "swap",
 });
 
@@ -101,7 +95,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${serif.variable} ${sans.variable} ${mono.variable} ${cormorant.variable}`}
+      className={`${serif.variable} ${sans.variable} ${GeistMono.variable} ${cormorant.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: `history.scrollRestoration='manual'` }} />

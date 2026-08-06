@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { listArticles } from "@/lib/babylovegrowth";
 import { SiteNav } from "@/components/SiteNav";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export const metadata: Metadata = {
   title: "Blog — Victory Velocity",
@@ -66,19 +67,7 @@ export default async function BlogIndex() {
         </div>
       </main>
 
-      <footer>
-        <div className="wrap">
-          <div className="foot-row">
-            <div className="mark">Victory&nbsp;Velocity</div>
-            <div style={{ textAlign: "right" }}>
-              <p style={{ color: "var(--faint)", fontStyle: "italic", margin: "0 0 8px", lineHeight: 1.5, fontFamily: "var(--serif)", fontSize: "15px" }}>
-                AI visibility &amp; advertising for brands that intend to be cited.
-              </p>
-              <span style={{ fontFamily: "var(--sans)", fontSize: "12px", letterSpacing: "0.04em", color: "var(--faint)" }}>© 2026 Victory Velocity</span>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

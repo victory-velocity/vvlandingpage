@@ -8,16 +8,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: 'https://www.victoryvelocity.ca/faq',
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: 'https://www.victoryvelocity.ca/about',
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
       url: 'https://www.victoryvelocity.ca/blog',
       changeFrequency: 'weekly',
       priority: 0.8,

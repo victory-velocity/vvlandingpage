@@ -14,19 +14,18 @@ export function MethodRows() {
   return (
     <section className="method sec-pad" id="method">
       <div className="wrap">
-        <h2 className="method-title rv">How we work.</h2>
-
-        <div className="method-list">
-          {STEPS.map((step) => {
+        <div className="method-grid">
+          {STEPS.map((step, i) => {
             const Visual = VISUALS[step.id];
             return (
-              <div className="method-row" key={step.id}>
-                <div className="method-copy rv">
-                  <div className="method-label">{step.label}</div>
-                  <h3>{step.headline}</h3>
-                  <p>{step.body}</p>
+              <div className="method-card rv" key={step.id}>
+                <div className="method-card-head">
+                  <span className="method-card-num">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="method-label">{step.label}</span>
                 </div>
-                <div className="method-vis rv d1">
+                <h3>{step.headline}</h3>
+                <p>{step.body}</p>
+                <div className="method-vis">
                   <Visual />
                 </div>
               </div>
