@@ -10,7 +10,6 @@ export function SiteFooter() {
             <div className="foot-col">
               <span className="ttl">Site</span>
               <Link href="/blog">Blog</Link>
-              <Link href="/#contact">Work With Us</Link>
             </div>
           </div>
         </div>

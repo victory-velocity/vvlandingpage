@@ -1,6 +1,9 @@
+import { CitationDemo } from "./CitationDemo";
+import { SparkleField } from "./SparkleField";
+
 const STATS = [
   {
-    figure: "Position 1",
+    figure: "Rank Position 1",
     desc: "Four non-branded search queries went from unranked to #1 on Google in two months.",
   },
   {
@@ -21,16 +24,15 @@ export function Shift() {
   return (
     <section className="shift sec-pad">
       <div className="wrap">
-        <div className="shift-grid">
-          <p className="big rv d1">
-            You can rank first<br />
-            <span className="dim">and still not be </span>
-            <span className="it swipe">named</span>
-            <span className="dim">.</span>
-          </p>
+        <blockquote className="big rv d1">
+          &ldquo;[Victory Velocity] are the first people who offered to actually do it,
+          instead of handing me another list.&rdquo;
+          <cite>&mdash; Sound Elite Theatres</cite>
+        </blockquote>
 
+        <div className="shift-grid">
           <div className="proof-col rv d2">
-            <p className="proof-label">Results we&rsquo;ve delivered for clients</p>
+            <p className="proof-label">In the past 6 months, we had managed to:</p>
             <div className="proof-stats">
               {STATS.map(({ figure, desc }) => (
                 <div className="proof-stat" key={figure}>
@@ -39,6 +41,11 @@ export function Shift() {
                 </div>
               ))}
             </div>
+          </div>
+
+          <div className="cd-col rv d3">
+            <SparkleField />
+            <CitationDemo />
           </div>
         </div>
       </div>

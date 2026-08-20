@@ -5,7 +5,6 @@ import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Hero } from "@/components/sections/Hero";
 import { Shift } from "@/components/sections/Shift";
-import { AgencyAnchor } from "@/components/sections/AgencyAnchor";
 import { MethodRows } from "@/components/method/MethodRows";
 import { FaqTeaser, faqSchema } from "@/components/sections/FaqTeaser";
 import { Contact } from "@/components/sections/Contact";
@@ -54,7 +53,6 @@ export default function Home() {
       <Hero />
       <Shift />
       <MethodRows />
-      <AgencyAnchor />
 
       <FaqTeaser />
 

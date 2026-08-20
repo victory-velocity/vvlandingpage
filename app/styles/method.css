@@ -9,34 +9,35 @@
 
 .method-card {
   display: flex; flex-direction: column;
+  background: #f7f4ed;
   border: 1px solid var(--hair); border-radius: 14px;
   padding: clamp(26px, 3vw, 34px);
 }
 
 .method-card-head {
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 14px;
 }
 .method-card-num {
-  font-family: var(--sans); font-size: 11px; letter-spacing: 0.1em;
-  color: var(--faint);
+  font-family: var(--sans); font-size: 10px; letter-spacing: 0.1em;
+  color: var(--ghost);
 }
 .method-label {
-  font-family: var(--sans); font-size: 12px; font-weight: 600;
-  letter-spacing: 0.13em; text-transform: uppercase;
-  color: var(--mute);
+  font-family: var(--sans); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--faint);
 }
 .method-card h3 {
   font-family: var(--serif); font-weight: 400;
-  font-size: clamp(20px, 1.8vw, 25px); line-height: 1.18;
-  letter-spacing: -0.015em; margin: 0 0 12px;
+  font-size: clamp(25px, 2.4vw, 31px); line-height: 1.14;
+  letter-spacing: -0.015em; color: var(--white); margin: 0 0 14px;
 }
 .method-card p {
-  font-size: 15px; line-height: 1.58; color: var(--mute);
-  margin: 0 0 24px;
+  font-size: 14.5px; line-height: 1.62; color: var(--mute);
+  margin: 0 0 28px; max-width: 46ch;
 }
 
-.method-vis { margin-top: auto; }
+.method-vis { margin-top: auto; padding-top: 22px; border-top: 1px solid var(--hair); }
 .method-vis > * { width: 100%; }
 
 @media (max-width: 900px) {

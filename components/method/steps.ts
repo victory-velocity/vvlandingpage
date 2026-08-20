@@ -9,25 +9,25 @@ export const STEPS: Step[] = [
   {
     id: "measure",
     label: "Measure",
-    headline: "We find out where AI is leaving you out.",
-    body: "We test the real questions your buyers ask, across every phrasing, through ChatGPT, Claude, Gemini and Perplexity. You get a per-engine map of where competitors get named and you don't.",
+    headline: "See exactly where AI leaves you out.",
+    body: "We test real buyer questions across every major engine, then map exactly where competitors get named instead of you.",
   },
   {
     id: "fix",
     label: "Fix",
-    headline: "We fix what stops AI from reading your site.",
-    body: "A deterministic audit of your whole site, starting with whether AI crawlers are even allowed in. Every finding comes with exact instructions, and nothing changes until you approve it.",
+    headline: "Fix what's blocking AI from your site.",
+    body: "A full technical audit, starting with whether AI crawlers can even reach you. Nothing changes until you approve it.",
   },
   {
     id: "authority",
     label: "Build authority",
-    headline: "We get you mentioned on the sites AI trusts.",
-    body: "This part is us, not software. We build your presence in the places those answers are drawn from, chosen against the gaps we measured rather than a generic list.",
+    headline: "Get mentioned where AI actually looks.",
+    body: "We build your presence on the sites AI pulls its answers from, chosen from the gaps we measured, not a generic list.",
   },
   {
     id: "rerun",
     label: "Re-run",
-    headline: "We run it again and show you what changed.",
-    body: "We run the whole thing again on a cycle, so movement is measured rather than asserted. You see what improved, what regressed, and what we go after next.",
+    headline: "Prove what changed, cycle after cycle.",
+    body: "We repeat the cycle so progress is measured, not assumed. You see what improved, what slipped, and what's next.",
   },
 ];

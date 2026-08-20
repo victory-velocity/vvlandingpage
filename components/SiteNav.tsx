@@ -15,7 +15,14 @@ export function SiteNav() {
   return (
     <nav className={`nav${visible ? " visible" : ""}`}>
       <Link href="/" className="mark">Victory&nbsp;Velocity</Link>
-      <Link href="/#contact" className="cta solid nav-cta">Work With Us</Link>
+      <a
+        href="https://cal.com/kaden-yeung-bgczdf/30min"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="cta solid nav-cta"
+      >
+        Book a call
+      </a>
     </nav>
   );
 }

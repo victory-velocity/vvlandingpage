@@ -4,60 +4,68 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import React from "react";
 
 const SANS: React.CSSProperties = { fontFamily: "var(--sans), system-ui, sans-serif" };
-const MONO: React.CSSProperties = { fontFamily: "var(--sans), system-ui, sans-serif" };
-const DISPLAY: React.CSSProperties = { fontFamily: "var(--font-cormorant), Georgia, serif" };
+const DISPLAY: React.CSSProperties = { fontFamily: "var(--serif), Georgia, serif" };
 
-const HAIR = "rgba(255,255,255,0.08)";
-const DIM = "rgba(255,255,255,0.3)";
-const MID = "rgba(255,255,255,0.55)";
-const BRIGHT = "rgba(255,255,255,0.9)";
+const INK = "#17150f";
+const MUTE = "rgba(23,21,15,0.62)";
+const FAINT = "rgba(23,21,15,0.4)";
+const HAIR = "rgba(23,21,15,0.12)";
+const ACCENT = "#D97757";
+const ACCENT_SOFT = "rgba(217,119,87,0.14)";
 
-/** Shared 16:9 frame. Each visual replays on a loop via a changing key. */
-function Frame({ children }: { children: React.ReactNode }) {
+/** Shared unstyled frame — the outer method-card already provides the border
+ * and background, so this just gives each visual a consistent flex column.
+ * Hover-gates playback: the sequence only runs while the pointer is over it,
+ * and resets to its resting state the moment the pointer leaves. */
+function Frame({ children }: { children: (play: boolean) => React.ReactNode }) {
+  const [hovered, setHovered] = useState(false);
   return (
     <div
-      style={{
-        width: "100%",
-        aspectRatio: "16/9",
-        overflow: "hidden",
-        border: "1px solid rgba(255,255,255,0.1)",
-        borderRadius: "6px",
-        background: "#141416",
-      }}
+      style={{ width: "100%", display: "flex", flexDirection: "column", ...SANS }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      {children}
+      {children(hovered)}
     </div>
   );
 }
 
-function Bar({ left, right }: { left: string; right: string }) {
+/** A small round status marker: a checkmark once resolved, an empty ring before. */
+function Check({ show, tone = "ink" }: { show: boolean; tone?: "ink" | "accent" }) {
+  const color = tone === "accent" ? ACCENT : INK;
   return (
-    <div
+    <span
       style={{
+        width: "22px",
+        height: "22px",
+        borderRadius: "50%",
+        flexShrink: 0,
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
-        padding: "11px 16px",
-        borderBottom: `1px solid ${HAIR}`,
-        ...MONO,
-        fontSize: "8.5px",
-        letterSpacing: "0.18em",
+        justifyContent: "center",
+        background: show ? (tone === "accent" ? ACCENT_SOFT : "rgba(23,21,15,0.06)") : "transparent",
+        border: show ? "1px solid transparent" : `1px solid ${HAIR}`,
+        transition: "background .4s ease, border-color .4s ease",
       }}
     >
-      <span style={{ color: MID }}>{left}</span>
-      <span style={{ color: DIM }}>{right}</span>
-    </div>
+      <svg width="11" height="9" viewBox="0 0 11 9" style={{ opacity: show ? 1 : 0, transition: "opacity .3s ease" }}>
+        <path d="M1 4.5L4 7.5L10 1" stroke={color} strokeWidth="1.7" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </span>
   );
 }
 
-/** Fires each step on schedule, then loops via onDone. */
-function useSequence(steps: [number, () => void][], done: number, onDone: () => void) {
+/** Fires each step on schedule while play is true, then loops via onDone.
+ * Scheduling stops (and any pending steps are cancelled) as soon as play
+ * goes false, so leaving the sequence mid-way never finishes it silently. */
+function useSequence(steps: [number, () => void][], done: number, onDone: () => void, play: boolean) {
   useEffect(() => {
+    if (!play) return;
     const timers = steps.map(([at, fn]) => setTimeout(fn, at));
     timers.push(setTimeout(onDone, done));
     return () => timers.forEach(clearTimeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [play]);
 }
 
 function useLoop() {
@@ -67,109 +75,77 @@ function useLoop() {
 }
 
 // ════════════════════════════════════════════════════════════
-// MEASURE - intent by engine, ending on the competitor gap
+// MEASURE - queries checked off as their engine coverage is read
 // ════════════════════════════════════════════════════════════
 
-const ENGINE_COLS = ["GPT", "CLDE", "GEM", "PPLX"];
-const GRID = "minmax(0, 1fr) repeat(4, 36px)";
-const ROWS_MAX = "440px";
-
 const INTENTS = [
-  { q: "best crm for small teams", you: [true, false, true, false] },
-  { q: "top rated crm software", you: [false, false, true, false] },
-  { q: "crm with the best support", you: [true, false, false, false] },
+  { q: "best crm for small teams", hits: "2 of 4 engines" },
+  { q: "top rated crm software", hits: "1 of 4 engines" },
+  { q: "crm with the best support", hits: "1 of 4 engines" },
 ];
 
-const COMPETITOR = { name: "Northgate", hits: [true, true, true, true] };
-
-function Dot({ on, show }: { on: boolean; show: boolean }) {
-  return (
-    <span
-      style={{
-        width: "9px",
-        height: "9px",
-        borderRadius: "50%",
-        justifySelf: "center",
-        background: on ? BRIGHT : "transparent",
-        border: on ? "1px solid transparent" : "1px solid rgba(255,255,255,0.22)",
-        opacity: show ? 1 : 0,
-        transform: show ? "none" : "scale(0.4)",
-        transition: "opacity .4s ease, transform .4s cubic-bezier(.2,.7,.2,1)",
-      }}
-    />
-  );
-}
-
-function MeasureInner({ onDone }: { onDone: () => void }) {
-  const [cols, setCols] = useState(0);
-  const [rival, setRival] = useState(false);
-  const [gap, setGap] = useState(false);
+function MeasureInner({ onDone, play }: { onDone: () => void; play: boolean }) {
+  const [shown, setShown] = useState(INTENTS.length);
+  const [gap, setGap] = useState(true);
 
   useSequence(
     [
-      [400, () => setCols(1)],
-      [750, () => setCols(2)],
-      [1100, () => setCols(3)],
-      [1450, () => setCols(4)],
-      [2050, () => setRival(true)],
-      [2650, () => setGap(true)],
+      [400, () => setShown(1)],
+      [900, () => setShown(2)],
+      [1400, () => setShown(3)],
+      [2100, () => setGap(true)],
     ],
-    5400,
-    onDone
+    4600,
+    onDone,
+    play
   );
 
+  useEffect(() => {
+    if (play) {
+      setShown(0);
+      setGap(false);
+    } else {
+      setShown(INTENTS.length);
+      setGap(true);
+    }
+  }, [play]);
+
   return (
-    <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      <Bar left="VISIBILITY RUN" right="4 ENGINES" />
-
-      <div style={{ flex: 1, padding: "12px 16px", display: "flex", flexDirection: "column", justifyContent: "center", gap: "10px", width: "100%", maxWidth: ROWS_MAX, margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: GRID, alignItems: "center", ...MONO, fontSize: "7px", letterSpacing: "0.14em", color: DIM }}>
-          <span />
-          {ENGINE_COLS.map((c) => (
-            <span key={c} style={{ textAlign: "center" }}>{c}</span>
-          ))}
-        </div>
-
-        {INTENTS.map((row) => (
-          <div key={row.q} style={{ display: "grid", gridTemplateColumns: GRID, alignItems: "center" }}>
-            <span style={{ ...DISPLAY, fontStyle: "italic", fontSize: "12.5px", color: MID }}>{row.q}</span>
-            {row.you.map((on, i) => (
-              <Dot key={i} on={on} show={i < cols} />
-            ))}
-          </div>
-        ))}
-
+    <div>
+      {INTENTS.map((row, i) => (
         <div
+          key={row.q}
           style={{
-            display: "grid",
-            gridTemplateColumns: GRID,
+            display: "flex",
             alignItems: "center",
-            paddingTop: "8px",
-            borderTop: `1px solid ${HAIR}`,
-            opacity: rival ? 1 : 0,
-            transform: rival ? "none" : "translateY(6px)",
-            transition: "opacity .5s ease, transform .5s cubic-bezier(.2,.7,.2,1)",
+            gap: "14px",
+            padding: "13px 0",
+            borderBottom: i < INTENTS.length - 1 ? `1px solid ${HAIR}` : "none",
+            opacity: i < shown ? 1 : 0,
+            transform: i < shown ? "none" : "translateY(6px)",
+            transition: "opacity .42s ease, transform .42s cubic-bezier(.2,.7,.2,1)",
           }}
         >
-          <span style={{ ...DISPLAY, fontSize: "12px", color: BRIGHT }}>{COMPETITOR.name}</span>
-          {COMPETITOR.hits.map((on, i) => (
-            <Dot key={i} on={on} show={rival} />
-          ))}
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <span style={{ ...DISPLAY, fontStyle: "italic", display: "block", fontSize: "15px", color: INK, lineHeight: 1.3 }}>
+              {row.q}
+            </span>
+            <span style={{ display: "block", fontSize: "12.5px", color: MUTE, marginTop: "2px" }}>{row.hits}</span>
+          </span>
+          <Check show={i < shown} />
         </div>
-      </div>
+      ))}
 
       <div
         style={{
-          padding: "9px 16px",
-          borderTop: `1px solid ${HAIR}`,
-          ...MONO,
-          fontSize: "8px",
-          letterSpacing: "0.14em",
-          color: gap ? BRIGHT : DIM,
+          marginTop: "14px",
+          fontSize: "13px",
+          fontWeight: 600,
+          color: gap ? ACCENT : FAINT,
           transition: "color .5s ease",
         }}
       >
-        {gap ? "9 GAPS FOUND" : "MEASURING"}
+        {gap ? "9 gaps found against your top competitor" : "Reading engine coverage…"}
       </div>
     </div>
   );
@@ -177,11 +153,7 @@ function MeasureInner({ onDone }: { onDone: () => void }) {
 
 export function MeasureVisual() {
   const { cycle, onDone } = useLoop();
-  return (
-    <Frame>
-      <MeasureInner key={cycle} onDone={onDone} />
-    </Frame>
-  );
+  return <Frame>{(play) => <MeasureInner key={cycle} onDone={onDone} play={play} />}</Frame>;
 }
 
 // ════════════════════════════════════════════════════════════
@@ -195,9 +167,9 @@ const AUDIT_CHECKS = [
   { label: "Internal links resolve", detail: "1 page needs action", ok: false },
 ];
 
-function AuditInner({ onDone }: { onDone: () => void }) {
-  const [shown, setShown] = useState(0);
-  const [approved, setApproved] = useState(false);
+function AuditInner({ onDone, play }: { onDone: () => void; play: boolean }) {
+  const [shown, setShown] = useState(AUDIT_CHECKS.length);
+  const [approved, setApproved] = useState(true);
 
   useSequence(
     [
@@ -205,71 +177,62 @@ function AuditInner({ onDone }: { onDone: () => void }) {
       [740, () => setShown(2)],
       [1080, () => setShown(3)],
       [1420, () => setShown(4)],
-      [2050, () => setApproved(true)],
+      [2100, () => setApproved(true)],
     ],
     4600,
-    onDone
+    onDone,
+    play
   );
 
+  useEffect(() => {
+    if (play) {
+      setShown(0);
+      setApproved(false);
+    } else {
+      setShown(AUDIT_CHECKS.length);
+      setApproved(true);
+    }
+  }, [play]);
+
   return (
-    <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      <Bar left="TECHNICAL AUDIT" right="222 CHECKS" />
+    <div>
+      {AUDIT_CHECKS.map((check, i) => (
+        <div
+          key={check.label}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "14px",
+            padding: "13px 0",
+            borderBottom: i < AUDIT_CHECKS.length - 1 ? `1px solid ${HAIR}` : "none",
+            opacity: i < shown ? 1 : 0,
+            transform: i < shown ? "none" : "translateY(6px)",
+            transition: "opacity .42s ease, transform .42s cubic-bezier(.2,.7,.2,1)",
+          }}
+        >
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <span style={{ display: "block", fontSize: "14.5px", fontWeight: 600, color: INK, lineHeight: 1.3 }}>{check.label}</span>
+            <span style={{ display: "block", fontSize: "12.5px", color: MUTE, marginTop: "2px" }}>{check.detail}</span>
+          </span>
+          <Check show={i < shown} tone={check.ok ? "ink" : "accent"} />
+        </div>
+      ))}
 
-      <div style={{ flex: 1, padding: "6px 16px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        {AUDIT_CHECKS.map((check, i) => (
-          <div
-            key={check.label}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              padding: "7px 0",
-              borderBottom: i < AUDIT_CHECKS.length - 1 ? `1px solid ${HAIR}` : "none",
-              opacity: i < shown ? 1 : 0,
-              transform: i < shown ? "none" : "translateY(5px)",
-              transition: "opacity .42s ease, transform .42s cubic-bezier(.2,.7,.2,1)",
-            }}
-          >
-            <span style={{ flex: 1, minWidth: 0 }}>
-              <span style={{ ...DISPLAY, display: "block", fontSize: "12.5px", color: BRIGHT, lineHeight: 1.25 }}>{check.label}</span>
-              <span style={{ ...MONO, display: "block", fontSize: "7.5px", color: DIM, letterSpacing: "0.06em", marginTop: "2px" }}>{check.detail}</span>
-            </span>
-            <span
-              style={{
-                ...MONO,
-                fontSize: "7px",
-                letterSpacing: "0.16em",
-                padding: "3px 7px",
-                borderRadius: "3px",
-                flexShrink: 0,
-                color: check.ok ? DIM : "#141416",
-                background: check.ok ? "transparent" : BRIGHT,
-                border: check.ok ? "1px solid rgba(255,255,255,0.14)" : "1px solid transparent",
-              }}
-            >
-              {check.ok ? "PASS" : "FIX"}
-            </span>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ padding: "9px 16px", borderTop: `1px solid ${HAIR}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <span style={{ ...MONO, fontSize: "8px", letterSpacing: "0.14em", color: DIM }}>1 TO ACT</span>
+      <div style={{ marginTop: "16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <span style={{ fontSize: "12.5px", color: FAINT }}>1 to act on</span>
         <span
           style={{
-            ...SANS,
-            fontSize: "9px",
+            fontSize: "13px",
             fontWeight: 600,
-            letterSpacing: "0.08em",
-            padding: "5px 12px",
-            borderRadius: "3px",
-            color: approved ? "#141416" : MID,
-            background: approved ? BRIGHT : "transparent",
-            border: approved ? "1px solid transparent" : "1px solid rgba(255,255,255,0.16)",
+            padding: "8px 16px",
+            borderRadius: "999px",
+            color: approved ? "#fff" : MUTE,
+            background: approved ? ACCENT : "transparent",
+            border: approved ? "1px solid transparent" : `1px solid ${HAIR}`,
             transition: "background .45s ease, color .45s ease, border-color .45s ease",
           }}
         >
-          {approved ? "APPROVED" : "AWAITING APPROVAL"}
+          {approved ? "Approved" : "Awaiting your approval"}
         </span>
       </div>
     </div>
@@ -278,108 +241,71 @@ function AuditInner({ onDone }: { onDone: () => void }) {
 
 export function AuditVisual() {
   const { cycle, onDone } = useLoop();
-  return (
-    <Frame>
-      <AuditInner key={cycle} onDone={onDone} />
-    </Frame>
-  );
+  return <Frame>{(play) => <AuditInner key={cycle} onDone={onDone} play={play} />}</Frame>;
 }
 
 // ════════════════════════════════════════════════════════════
-// BUILD AUTHORITY - third party surfaces connecting to the brand
+// BUILD AUTHORITY - surfaces fanning in as a stack of cards,
+// the most recent one always the highlighted "front" card
 // ════════════════════════════════════════════════════════════
 
-const SURFACES = [
-  { label: "DIRECTORIES", x: 24, y: 28 },
-  { label: "COMPARISONS", x: 76, y: 25 },
-  { label: "REVIEWS", x: 21, y: 68 },
-  { label: "PUBLICATIONS", x: 79, y: 66 },
-  { label: "COMMUNITIES", x: 50, y: 80 },
-];
+const SURFACES = ["Directories", "Comparisons", "Reviews", "Publications"];
 
-function AuthorityInner({ onDone }: { onDone: () => void }) {
-  const [linked, setLinked] = useState(0);
+function AuthorityInner({ onDone, play }: { onDone: () => void; play: boolean }) {
+  const [linked, setLinked] = useState(SURFACES.length);
 
   useSequence(
     [
       [500, () => setLinked(1)],
-      [1000, () => setLinked(2)],
-      [1500, () => setLinked(3)],
-      [2000, () => setLinked(4)],
-      [2500, () => setLinked(5)],
+      [1300, () => setLinked(2)],
+      [2100, () => setLinked(3)],
+      [2900, () => setLinked(4)],
     ],
-    5200,
-    onDone
+    5400,
+    onDone,
+    play
   );
 
+  useEffect(() => {
+    setLinked(play ? 0 : SURFACES.length);
+  }, [play]);
+
   return (
-    <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      <Bar left="AUTHORITY MAP" right={`${linked} OF ${SURFACES.length}`} />
+    <div>
+      <div style={{ position: "relative", height: "190px" }}>
+        {SURFACES.map((label, i) => {
+          const shown = i < linked;
+          const isFront = i === linked - 1;
+          const rotate = (i - (SURFACES.length - 1) / 2) * 4.5;
+          return (
+            <div
+              key={label}
+              style={{
+                position: "absolute",
+                top: `${i * 20}px`,
+                left: `${i * 5}%`,
+                width: "72%",
+                padding: "16px 18px",
+                borderRadius: "12px",
+                border: isFront ? "1px solid transparent" : `1px solid ${HAIR}`,
+                background: isFront ? ACCENT : "#fff",
+                boxShadow: isFront
+                  ? "0 18px 32px -18px rgba(217,119,87,0.55)"
+                  : "0 12px 24px -18px rgba(23,21,15,0.18)",
+                transform: `rotate(${rotate}deg) translateY(${shown ? 0 : 16}px)`,
+                opacity: shown ? 1 : 0,
+                zIndex: i,
+                transition: "transform .5s cubic-bezier(.2,.7,.2,1), opacity .5s ease, background .4s ease, box-shadow .4s ease",
+              }}
+            >
+              <span style={{ fontSize: "13.5px", fontWeight: 600, color: isFront ? "#fff" : INK }}>{label}</span>
+            </div>
+          );
+        })}
+      </div>
 
-      <div style={{ flex: 1, position: "relative" }}>
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-          {SURFACES.map((s, i) => (
-            <line
-              key={s.label}
-              x1={s.x}
-              y1={s.y}
-              x2={50}
-              y2={50}
-              stroke="rgba(255,255,255,0.34)"
-              strokeWidth={1}
-              vectorEffect="non-scaling-stroke"
-              style={{ opacity: i < linked ? 1 : 0, transition: "opacity .55s ease" }}
-            />
-          ))}
-        </svg>
-
-        {SURFACES.map((s, i) => (
-          <div
-            key={s.label}
-            style={{
-              position: "absolute",
-              left: `${s.x}%`,
-              top: `${s.y}%`,
-              transform: "translate(-50%,-50%)",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "5px",
-              opacity: i < linked ? 1 : 0.28,
-              transition: "opacity .55s ease",
-            }}
-          >
-            <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: i < linked ? BRIGHT : DIM }} />
-            <span style={{ ...MONO, fontSize: "6.5px", letterSpacing: "0.14em", color: i < linked ? MID : DIM, whiteSpace: "nowrap" }}>
-              {s.label}
-            </span>
-          </div>
-        ))}
-
-        <div
-          style={{
-            position: "absolute",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%,-50%)",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "6px",
-          }}
-        >
-          <span
-            style={{
-              width: "11px",
-              height: "11px",
-              borderRadius: "50%",
-              background: BRIGHT,
-              opacity: 0.35 + (linked / SURFACES.length) * 0.65,
-              transition: "opacity .55s ease",
-            }}
-          />
-          <span style={{ ...DISPLAY, fontSize: "13px", color: BRIGHT }}>You</span>
-        </div>
+      <div style={{ marginTop: "14px", fontSize: "13px", color: MUTE }}>
+        {linked} of {SURFACES.length} surfaces linked to your brand
       </div>
     </div>
   );
@@ -387,11 +313,7 @@ function AuthorityInner({ onDone }: { onDone: () => void }) {
 
 export function AuthorityVisual() {
   const { cycle, onDone } = useLoop();
-  return (
-    <Frame>
-      <AuthorityInner key={cycle} onDone={onDone} />
-    </Frame>
-  );
+  return <Frame>{(play) => <AuthorityInner key={cycle} onDone={onDone} play={play} />}</Frame>;
 }
 
 // ════════════════════════════════════════════════════════════
@@ -405,10 +327,14 @@ const MOVES = [
 ];
 
 function useCount(to: number, run: boolean, ms = 900) {
-  const [n, setN] = useState(0);
+  const [n, setN] = useState(to);
   const raf = useRef<number>();
   useEffect(() => {
-    if (!run) return;
+    if (!run) {
+      setN(to);
+      return;
+    }
+    setN(0);
     const start = performance.now();
     const step = (now: number) => {
       const p = Math.min(1, (now - start) / ms);
@@ -423,10 +349,10 @@ function useCount(to: number, run: boolean, ms = 900) {
   return n;
 }
 
-function RerunInner({ onDone }: { onDone: () => void }) {
-  const [rows, setRows] = useState(0);
-  const [scored, setScored] = useState(false);
-  const score = useCount(34, scored);
+function RerunInner({ onDone, play }: { onDone: () => void; play: boolean }) {
+  const [rows, setRows] = useState(MOVES.length);
+  const [scored, setScored] = useState(true);
+  const score = useCount(34, play);
 
   useSequence(
     [
@@ -436,70 +362,79 @@ function RerunInner({ onDone }: { onDone: () => void }) {
       [1970, () => setRows(3)],
     ],
     5200,
-    onDone
+    onDone,
+    play
   );
 
-  return (
-    <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      <Bar left="CYCLE 02" right="VS CYCLE 01" />
+  useEffect(() => {
+    if (play) {
+      setRows(0);
+      setScored(false);
+    } else {
+      setRows(MOVES.length);
+      setScored(true);
+    }
+  }, [play]);
 
-      <div style={{ padding: "14px 16px 8px", display: "flex", alignItems: "baseline", gap: "10px" }}>
-        <span style={{ ...DISPLAY, fontSize: "34px", lineHeight: 1, color: BRIGHT }}>{score}%</span>
-        <span style={{ ...MONO, fontSize: "8px", letterSpacing: "0.16em", color: MID }}>VISIBILITY</span>
-        <span style={{ ...MONO, fontSize: "8px", letterSpacing: "0.16em", color: DIM, marginLeft: "auto", opacity: scored ? 1 : 0, transition: "opacity .5s ease" }}>
-          +11 PTS
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "baseline", gap: "10px", marginBottom: "10px" }}>
+        <span style={{ ...DISPLAY, fontSize: "38px", lineHeight: 1, color: INK }}>{score}%</span>
+        <span style={{ fontSize: "12.5px", color: MUTE }}>visibility</span>
+        <span
+          style={{
+            fontSize: "12.5px",
+            fontWeight: 600,
+            color: ACCENT,
+            marginLeft: "auto",
+            opacity: scored ? 1 : 0,
+            transition: "opacity .5s ease",
+          }}
+        >
+          +11 pts
         </span>
       </div>
 
-      <div style={{ flex: 1, padding: "0 16px 6px", display: "flex", flexDirection: "column", justifyContent: "center", width: "100%", maxWidth: "470px", margin: "0 auto" }}>
-        {MOVES.map((m, i) => {
-          const down = m.after < m.before;
-          return (
-            <div
-              key={m.q}
+      {MOVES.map((m, i) => {
+        const down = m.after < m.before;
+        return (
+          <div
+            key={m.q}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+              padding: "12px 0",
+              borderTop: `1px solid ${HAIR}`,
+              opacity: i < rows ? 1 : 0,
+              transform: i < rows ? "none" : "translateY(6px)",
+              transition: "opacity .45s ease, transform .45s cubic-bezier(.2,.7,.2,1)",
+            }}
+          >
+            <span style={{ ...DISPLAY, fontStyle: "italic", fontSize: "14px", color: INK, flex: 1, minWidth: 0 }}>{m.q}</span>
+            <span style={{ fontSize: "12.5px", color: FAINT }}>{m.before}%</span>
+            <span style={{ fontSize: "12.5px", color: FAINT }}>&rarr;</span>
+            <span style={{ fontSize: "13px", fontWeight: 600, color: INK, width: "30px" }}>{m.after}%</span>
+            <span
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                padding: "7px 0",
-                borderTop: `1px solid ${HAIR}`,
-                opacity: i < rows ? 1 : 0,
-                transform: i < rows ? "none" : "translateY(5px)",
-                transition: "opacity .45s ease, transform .45s cubic-bezier(.2,.7,.2,1)",
+                fontSize: "11px",
+                fontWeight: 600,
+                padding: "4px 10px",
+                borderRadius: "999px",
+                color: down ? INK : MUTE,
+                border: `1px solid ${down ? "rgba(23,21,15,0.3)" : HAIR}`,
               }}
             >
-              <span style={{ ...DISPLAY, fontStyle: "italic", fontSize: "12px", color: MID, flex: 1, minWidth: 0 }}>{m.q}</span>
-              <span style={{ ...MONO, fontSize: "8.5px", color: DIM }}>{m.before}%</span>
-              <span style={{ ...MONO, fontSize: "8.5px", color: DIM }}>&rarr;</span>
-              <span style={{ ...MONO, fontSize: "8.5px", color: BRIGHT, width: "26px" }}>{m.after}%</span>
-              <span
-                style={{
-                  ...MONO,
-                  fontSize: "6.5px",
-                  letterSpacing: "0.14em",
-                  padding: "2px 6px",
-                  borderRadius: "3px",
-                  width: "58px",
-                  textAlign: "center",
-                  color: down ? BRIGHT : DIM,
-                  border: `1px solid ${down ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.14)"}`,
-                }}
-              >
-                {m.note.toUpperCase()}
-              </span>
-            </div>
-          );
-        })}
-      </div>
+              {down ? "Regressed" : "Verified"}
+            </span>
+          </div>
+        );
+      })}
     </div>
   );
 }
 
 export function RerunVisual() {
   const { cycle, onDone } = useLoop();
-  return (
-    <Frame>
-      <RerunInner key={cycle} onDone={onDone} />
-    </Frame>
-  );
+  return <Frame>{(play) => <RerunInner key={cycle} onDone={onDone} play={play} />}</Frame>;
 }
