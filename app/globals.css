@@ -159,6 +159,30 @@ section { position: relative; }
   font-family: var(--serif); font-size: 16px; color: var(--faint);
   margin-top: 18px;
 }
+.testimonial-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+.testimonial-link:hover { color: var(--white); }
+.testimonial-link:focus-visible {
+  color: var(--white);
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
+}
+.testimonial-link-arrow {
+  display: inline-block;
+  margin-left: 0.24em;
+  text-decoration: none;
+  transition: transform 0.25s ease;
+}
+.testimonial-link:hover .testimonial-link-arrow {
+  transform: translate(0.12em, -0.12em);
+}
 .shift .big .it { font-style: italic; }
 .shift-grid {
   display: grid; grid-template-columns: 1fr 1fr;
@@ -444,6 +468,8 @@ footer .wrap { max-width: 720px; }
 @media (prefers-reduced-motion: reduce) {
   .rv { opacity: 1; transform: none; transition: none; }
   .track, .swipe::after { animation: none; }
+  .testimonial-link-arrow { transition: none; }
+  .testimonial-link:hover .testimonial-link-arrow { transform: none; }
 
 }
 

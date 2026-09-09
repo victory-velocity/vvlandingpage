@@ -27,7 +27,18 @@ export function Shift() {
         <blockquote className="big rv d1">
           &ldquo;[Victory Velocity] are the first people who offered to actually do it,
           instead of handing me another list.&rdquo;
-          <cite>&mdash; Sound Elite Theatres</cite>
+          <cite>
+            &mdash;{" "}
+            <a
+              href="https://soundelitetheatres.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="testimonial-link"
+            >
+              Sound Elite Theatres
+              <span className="testimonial-link-arrow" aria-hidden="true">↗</span>
+            </a>
+          </cite>
         </blockquote>
 
         <div className="shift-grid">
