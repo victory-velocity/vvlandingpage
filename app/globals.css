@@ -34,7 +34,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 body {
   margin: 0;
   background: var(--ink);
@@ -578,6 +578,46 @@ footer .wrap { max-width: 720px; }
 }
 .blog-fig figcaption a { color: var(--faint); }
 .blog-fig figcaption a:hover { color: var(--mute); }
+
+/* ---- raw article HTML from the Babylovegrowth API ----
+   These elements arrive unclassed, so they need element-level rules.
+   Without max-width the images render at their natural 1280-1920px and
+   push the whole page sideways. */
+.blog-body img {
+  max-width: 100%; height: auto; display: block;
+  margin: 8px auto; border-radius: 6px; border: 1px solid var(--hair);
+}
+.blog-body figure { margin: 48px 0; }
+.blog-body figcaption {
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.08em;
+  color: var(--faint); margin-top: 14px; text-align: center;
+}
+
+.blog-body h1 {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(30px, 3.8vw, 46px); line-height: 1.08;
+  letter-spacing: -0.02em; color: var(--white); margin: 0 0 28px;
+}
+
+.blog-body table {
+  display: block; width: max-content; max-width: 100%; overflow-x: auto;
+  border-collapse: collapse; margin: 48px 0;
+  font-family: var(--sans); font-size: 15px; line-height: 1.5;
+}
+.blog-body th, .blog-body td {
+  text-align: left; padding: 14px 16px; vertical-align: top;
+  border-bottom: 1px solid var(--hair); color: rgba(23,21,15,0.82);
+}
+.blog-body th { font-weight: 600; color: var(--white); }
+.blog-body tr:last-child td { border-bottom: none; }
+
+.blog-body pre {
+  margin: 48px 0; padding: 24px; overflow-x: auto;
+  background: rgba(23,21,15,0.04);
+  border: 1px solid var(--hair); border-radius: 8px;
+}
+.blog-body pre code { font-family: var(--mono); font-size: 14px; }
+.blog-body iframe, .blog-body video { max-width: 100%; }
 
 .blog-tldr {
   background: rgba(23,21,15,0.04); border: 1px solid var(--hair);

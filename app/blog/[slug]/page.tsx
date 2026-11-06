@@ -40,6 +40,23 @@ function estimateReadTime(html: string): number {
   return Math.max(1, Math.round(words / 200));
 }
 
+// The API's content_html opens with the article title as an <h1> and the hero
+// image, both of which blog-header already renders. Drop them so the post does
+// not show its title and cover twice (and does not ship two <h1>s).
+function stripDuplicateHeader(html: string, heroUrl?: string): string {
+  let out = html.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>\s*/i, "");
+  if (heroUrl) {
+    const src = heroUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    // the image arrives wrapped in its own <p>, so take the wrapper with it
+    out = out.replace(
+      new RegExp(`<p>\\s*<img\\b[^>]*src=["']${src}["'][^>]*>\\s*</p>\\s*`, "i"),
+      ""
+    );
+    out = out.replace(new RegExp(`<img\\b[^>]*src=["']${src}["'][^>]*>\\s*`, "i"), "");
+  }
+  return out.trim();
+}
+
 export default async function DynamicBlogPost({
   params,
 }: {
@@ -52,7 +69,11 @@ export default async function DynamicBlogPost({
   const article = await getArticle(summary.id);
   if (!article) notFound();
 
-  const readTime = estimateReadTime(article.content_html);
+  const contentHtml = stripDuplicateHeader(
+    article.content_html,
+    article.hero_image_url
+  );
+  const readTime = estimateReadTime(contentHtml);
   const publishDate = new Date(article.created_at).toLocaleDateString("en-US", {
     month: "long",
     year: "numeric",
@@ -105,7 +126,7 @@ export default async function DynamicBlogPost({
             )}
             <div
               className="blog-body"
-              dangerouslySetInnerHTML={{ __html: article.content_html }}
+              dangerouslySetInnerHTML={{ __html: contentHtml }}
             />
           </div>
         </article>
