@@ -12,7 +12,7 @@ const STATS = [
   },
   {
     figure: "54%",
-    desc: "Citation rate climbed as high as 54% on Gemini and ChatGPT over seven weeks.",
+    desc: "Mention rate climbed as high as 54% on Gemini and ChatGPT over seven weeks.",
   },
   {
     figure: "49%",
