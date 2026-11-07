@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { listArticles } from "@/lib/babylovegrowth";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 
@@ -10,11 +9,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://www.victoryvelocity.ca/blog" },
 };
 
-export const revalidate = 3600;
-
-export default async function BlogIndex() {
-  const articles = await listArticles();
-
+export default function BlogIndex() {
   return (
     <>
       <SiteNav />
@@ -27,31 +22,12 @@ export default async function BlogIndex() {
             </h1>
 
             <div className="post-list">
-              {articles.map((article) => {
-                const publishDate = new Date(article.created_at).toLocaleDateString(
-                  "en-US",
-                  { month: "long", year: "numeric" }
-                );
-                return (
-                  <Link
-                    key={article.id}
-                    href={`/blog/${article.slug}`}
-                    className="post-card"
-                  >
-                    <div className="post-card-meta">{publishDate}</div>
-                    <h2 className="post-card-title">{article.title}</h2>
-                    <p className="post-card-excerpt">{article.meta_description}</p>
-                    <span className="post-card-read">Read article →</span>
-                  </Link>
-                );
-              })}
-
               <Link
                 href="/blog/sound-elite-theatres-case-study"
                 className="post-card"
               >
                 <div className="post-card-meta">
-                  Jared Shum&nbsp;&nbsp;·&nbsp;&nbsp;November 2026&nbsp;&nbsp;·&nbsp;&nbsp;6 min read
+                  Jared Shum&nbsp;&nbsp;·&nbsp;&nbsp;September 2026&nbsp;&nbsp;·&nbsp;&nbsp;6 min read
                 </div>
                 <h2 className="post-card-title">
                   Ranking on Google, invisible in AI answers

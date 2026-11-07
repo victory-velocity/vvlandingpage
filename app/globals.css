@@ -595,10 +595,10 @@ footer .wrap { max-width: 720px; }
 .blog-fig figcaption a { color: var(--faint); }
 .blog-fig figcaption a:hover { color: var(--mute); }
 
-/* ---- raw article HTML from the Babylovegrowth API ----
-   These elements arrive unclassed, so they need element-level rules.
-   Without max-width the images render at their natural 1280-1920px and
-   push the whole page sideways. */
+/* ---- unclassed elements inside .blog-body ----
+   Element-level rules so pasted or generated article HTML stays inside the
+   column. Without max-width, images render at their natural size and push
+   the whole page sideways. */
 .blog-body img {
   max-width: 100%; height: auto; display: block;
   margin: 8px auto; border-radius: 6px; border: 1px solid var(--hair);

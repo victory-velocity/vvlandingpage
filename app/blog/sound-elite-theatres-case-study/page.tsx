@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     description:
       "A Vancouver home theatre specialist ranked well on Google and was barely named by AI engines. What we measured, what moved, and what is still open.",
     type: "article",
-    publishedTime: "2026-11-07",
+    publishedTime: "2026-09-01",
     authors: ["Jared Shum"],
   },
 };
@@ -44,7 +44,7 @@ export default function SoundEliteCaseStudy() {
             <div className="blog-post-meta">
               <span>Jared Shum</span>
               <span className="blog-meta-dot">·</span>
-              <span>November 2026</span>
+              <span>September 2026</span>
               <span className="blog-meta-dot">·</span>
               <span>6 min read</span>
             </div>
