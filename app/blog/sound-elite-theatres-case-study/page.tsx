@@ -238,13 +238,6 @@ export default function SoundEliteCaseStudy() {
                 <strong>$550,000</strong>.
               </p>
 
-              <p>
-                That second number is a projection rather than banked revenue,
-                and visibility was one input among their pricing, their sales
-                and their market over the same period. We are not claiming it
-                was the only one.
-              </p>
-
               <h2 id="the-gap">The gap that is still open</h2>
 
               <p>
