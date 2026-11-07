@@ -1,5 +1,16 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Housekeeping
+
+**The blog is fully static.** Every post is its own file under `app/blog/<slug>/page.tsx`. There is no CMS, no API call and nothing to fetch at request time, so the blog renders identically on a laptop and in production.
+
+It used to be otherwise. Until November 2026 `/blog/[slug]` pulled syndicated articles from the Babylovegrowth API at runtime, which meant the index looked empty on any machine without the API key, and the articles' raw HTML broke the page layout. That integration is gone: `lib/babylovegrowth.ts` and `app/blog/[slug]/page.tsx` were deleted and the three published articles now 301 to `/blog` (see `RETIRED_POSTS` in `next.config.mjs` — they were indexed, so they redirect rather than 404).
+
+Two leftovers on the Vercel side, neither of which anything in this repo reads:
+
+- `BABYLOVEGROWTH_API_KEY` can be deleted from the project's environment variables.
+- Cancel the Babylovegrowth subscription if one is still running.
+
 ## Getting Started
 
 First, run the development server:
