@@ -47,6 +47,24 @@ export default async function BlogIndex() {
               })}
 
               <Link
+                href="/blog/sound-elite-theatres-case-study"
+                className="post-card"
+              >
+                <div className="post-card-meta">
+                  Jared Shum&nbsp;&nbsp;·&nbsp;&nbsp;November 2026&nbsp;&nbsp;·&nbsp;&nbsp;6 min read
+                </div>
+                <h2 className="post-card-title">
+                  Ranking on Google, invisible in AI answers
+                </h2>
+                <p className="post-card-excerpt">
+                  Sound Elite Theatres was already doing fine in search. Inside the AI
+                  engines it was barely named. What we measured, what moved, and what
+                  is still open.
+                </p>
+                <span className="post-card-read">Read article →</span>
+              </Link>
+
+              <Link
                 href="/blog/the-biggest-shift-in-marketing-since-google-ads"
                 className="post-card"
               >

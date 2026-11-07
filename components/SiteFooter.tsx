@@ -9,6 +9,7 @@ export function SiteFooter() {
           <div className="foot-cols">
             <div className="foot-col">
               <span className="ttl">Site</span>
+              <Link href="/about">About</Link>
               <Link href="/blog">Blog</Link>
             </div>
           </div>
