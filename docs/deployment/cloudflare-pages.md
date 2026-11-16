@@ -25,6 +25,10 @@ existing server build and its redirects for Vercel.
 aligned with `RETIRED_POSTS` in `next.config.mjs`
 while both deployment modes are supported.
 
+`public/_headers` marks Cloudflare's `pages.dev` hostnames as `noindex`, so test
+deployments do not compete with the canonical marketing site in search results.
+These rules do not match the custom domain.
+
 ## Cutover checklist
 
 1. Authorize Cloudflare's GitHub App only for the intended repositories.

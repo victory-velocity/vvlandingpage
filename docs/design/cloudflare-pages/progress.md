@@ -15,6 +15,13 @@ Updated 2026-11-16.
   24 referenced assets, robots/sitemap/llms/favicon, booking link, nine redirect
   variants (including query preservation), and a 404 for a missing page.
 - `git diff --check`: passed.
+- Cloudflare login and GitHub App installation completed. Installation 182665926
+  is limited to victory-velocity/vvlandingpage.
+- Created the isolated free Pages project `vvlandingpage-preview`, using
+  `chore/cloudflare-pages-migration` as its deployment branch. Its initial remote
+  build of ff146f2 succeeded; no live custom domain was attached.
+- Added hostname-specific `noindex` response headers for Pages preview URLs;
+  verification of the updated remote deployment is pending.
 
 ## Existing check failure
 
@@ -27,8 +34,7 @@ violations are modified by this migration. This is not a passing preflight.
 ## Pending
 
 - Required pull request review and merge.
-- Cloudflare account login and narrowly scoped GitHub App authorization.
-- Cloudflare preview deployment, remote checks, and main-branch deployment.
+- Updated Cloudflare preview deployment, remote checks, and main-branch deployment.
 - Custom-domain cutover and HTTPS/redirect verification.
 - Repository privatization and successful post-privatization build.
 
