@@ -20,8 +20,14 @@ Updated 2026-11-16.
 - Created the isolated free Pages project `vvlandingpage-preview`, using
   `chore/cloudflare-pages-migration` as its deployment branch. Its initial remote
   build of ff146f2 succeeded; no live custom domain was attached.
-- Added hostname-specific `noindex` response headers for Pages preview URLs;
-  verification of the updated remote deployment is pending.
+- Added hostname-specific `noindex` response headers for Pages preview URLs.
+- Remote deployment of f8f195e succeeded at
+  https://vvlandingpage-preview.pages.dev. HTTP checks passed for all five pages,
+  25 assets, four metadata files, the booking link, nine redirect variants, and a
+  missing-page 404. All pages return `noindex` and retain the live site's canonical
+  URLs. Browser inspection confirmed rendering and working FAQ expansion.
+- Jared's private-contribution visibility remains enabled. No review rule was
+  bypassed or changed; PR #6 is authored by jyshum and requires another reviewer.
 
 ## Existing check failure
 
@@ -34,7 +40,7 @@ violations are modified by this migration. This is not a passing preflight.
 ## Pending
 
 - Required pull request review and merge.
-- Updated Cloudflare preview deployment, remote checks, and main-branch deployment.
+- Main-branch Cloudflare deployment after the required review and merge.
 - Custom-domain cutover and HTTPS/redirect verification.
 - Repository privatization and successful post-privatization build.
 
