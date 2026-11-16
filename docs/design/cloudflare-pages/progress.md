@@ -1,0 +1,37 @@
+# Cloudflare Pages migration progress
+
+Updated 2026-11-16.
+
+## Completed
+
+- Added an opt-in static export build while preserving the existing server build.
+- Added permanent redirects for three retired blog URLs, including slash variants.
+- Documented free-plan setup, domain cutover, privacy, and rollback steps.
+- `npm ci --no-audit --no-fund`: passed; dependency lockfile unchanged.
+- `npm run lint`: passed, no warnings or errors.
+- `npm run build:pages`: passed, static export with 55 files.
+- `npm run build`: passed, existing deployment mode preserved.
+- Cloudflare Wrangler 4.163.0 local runtime HTTP validation passed: five pages,
+  24 referenced assets, robots/sitemap/llms/favicon, booking link, nine redirect
+  variants (including query preservation), and a 404 for a missing page.
+- `git diff --check`: passed.
+
+## Existing check failure
+
+`npm run preflight` reports five em/en-dash style violations in unchanged files:
+two in `app/blog/page.tsx` and one each in `app/globals.css`,
+`components/ServiceVisuals.tsx`, and
+`components/sections/useMarqueeHighlight.ts`. No files containing those
+violations are modified by this migration. This is not a passing preflight.
+
+## Pending
+
+- Required pull request review and merge.
+- Cloudflare account login and narrowly scoped GitHub App authorization.
+- Cloudflare preview deployment, remote checks, and main-branch deployment.
+- Custom-domain cutover and HTTPS/redirect verification.
+- Repository privatization and successful post-privatization build.
+
+No Cloudflare account, custom domain, DNS, billing, or repository visibility
+change is performed by the code in this branch. Local validation does not prove
+that a remote deployment or production cutover has completed.
